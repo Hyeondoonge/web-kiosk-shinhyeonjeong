@@ -1,3 +1,5 @@
+import { getCategory } from 'api/category'
+import { getMenu } from 'api/menu'
 import React, { createContext, useEffect, useState } from 'react'
 import Cart from './Cart'
 import CategoryList from './CategoryList'
@@ -28,18 +30,34 @@ export default function MainPage() {
   const [menuList, setMenuList] = useState<MenuProps[]>([])
   const [selectedMenuIdList, setSelectedMenuIdList] = useState([2, 5])
 
+  const initData = async () => {
+    try {
+      let response = await getCategory()
+      if ('message' in response) {
+        // Error
+        throw new Error(response.message)
+      }
+      const categoryList = response
+      setCategoryList(categoryList)
+
+      const categoryId = categoryList[0].id
+
+      response = await getMenu(categoryId)
+      if ('message' in response) {
+        // Error
+        throw new Error(response.message)
+      }
+
+      const menuList = response
+      console.log(menuList)
+      setMenuList(menuList)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    setMenuList([
-      { id: 1, name: '아메리카노' },
-      { id: 2, name: '콜드브루' },
-      { id: 3, name: '헤이즐넛 라떼' },
-      { id: 4, name: '돌체라떼' },
-      { id: 5, name: '초콜릿 라떼' },
-    ])
-    setCategoryList([
-      { id: 1, name: '커피' },
-      { id: 2, name: '라떼' },
-    ])
+    initData()
   }, [])
 
   // + MenuList 아이템 클릭 시 Selected Id가 변경되어서 Cart가 변경되어야함.

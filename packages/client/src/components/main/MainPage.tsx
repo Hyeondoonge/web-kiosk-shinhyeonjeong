@@ -36,9 +36,7 @@ export default function MainPage() {
     <MenuListContext.Provider value={menuList}>
       <SelectedMenuListIdContext.Provider value={selectedMenuIdList}>
         <div>
-          <h1>카테고리</h1>
           <CategoryList categoryList={categoryList} />
-          <h1>메뉴</h1>
           <MenuList />
           <h1>카트</h1>
           <Cart />

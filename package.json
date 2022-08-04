@@ -6,11 +6,9 @@
   "author": "minsu-zip <alstn4814@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/**"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "client": "yarn workspace client",
     "server": "yarn workspace server"

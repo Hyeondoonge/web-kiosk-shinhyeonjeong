@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function categoryList({
+export default function CategoryList({
   categoryList,
 }: {
   categoryList: { id: number; name: string }[]

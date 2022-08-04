@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import MainPage from 'components/main/MainPage'
+import React from 'react'
 
 function App() {
-  return <div className="App">My KIOSK</div>
+  return (
+    <div className="App">
+      <MainPage />
+    </div>
+  )
 }
 
 export default App

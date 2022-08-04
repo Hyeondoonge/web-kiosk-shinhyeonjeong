@@ -14,6 +14,7 @@
     "server": "yarn workspace server"
   },
   "dependencies": {
+    "@nestjs/mapped-types": "*",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "eslint": "^8.21.0",

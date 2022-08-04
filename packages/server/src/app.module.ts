@@ -1,31 +1,21 @@
 import { Module, Options } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { ConfigModule } from '@nestjs/config'
-import { CategoryController } from './category/category.controller'
-import { CategoryService } from './category/category.service'
-import { MenuController } from './menu/menu.controller'
-import { MenuService } from './menu/menu.service'
-import { OptionController } from './option/option.controller'
-import { OptionService } from './option/option.service'
-import { OrdersController } from './orders/orders.controller'
-import { OrdersService } from './orders/orders.service'
+import { CategoryModule } from './category/category.module'
+import { MenuModule } from './menu/menu.module'
+import { OptionModule } from './option/option.module'
+import { OrdersModule } from './orders/orders.module'
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [
-    AppController,
-    CategoryController,
-    MenuController,
-    OptionController,
-    OrdersController,
+  imports: [
+    ConfigModule.forRoot(),
+    CategoryModule,
+    OrdersModule,
+    MenuModule,
+    OptionModule,
   ],
-  providers: [
-    AppService,
-    CategoryService,
-    MenuService,
-    OptionService,
-    OrdersService,
-  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

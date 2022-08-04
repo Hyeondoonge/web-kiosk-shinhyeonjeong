@@ -1,9 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { MenuListContext, SelectedMenuListIdContext } from './MainPage'
 import styled from 'styled-components'
 
 export function Timer() {
-  return <div>60초</div>
+  const selectedMenuListId = useContext(SelectedMenuListIdContext)
+  const INITIAL_LEFT_TIME = 10
+  const [leftTime, setLeftTime] = useState<number>(INITIAL_LEFT_TIME)
+  const interval = useRef<any>(null)
+
+  useEffect(() => {
+    if (interval.current) {
+      clearInterval(interval.current)
+    }
+    setLeftTime(INITIAL_LEFT_TIME)
+
+    // + 담긴 상품이 없을 때는 실행되지 않도록 할 수도 있음.
+    interval.current = setInterval(() => {
+      setLeftTime((leftTime) => leftTime - 1)
+    }, 1000)
+  }, [selectedMenuListId])
+
+  useEffect(() => {
+    if (leftTime === 0) {
+      // 모든 결제 취소
+      clearInterval(interval.current)
+    }
+  }, [leftTime])
+
+  return <div>{leftTime}초</div>
 }
 
 export function CancelButton() {
@@ -14,11 +38,6 @@ export function PayButton() {
   return <button>결제하기</button>
 }
 
-const StyledSelectedMenu = styled.div`
-  display: flex;
-  gap: 10px;
-`
-
 export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
   return (
     <StyledSelectedMenu>
@@ -28,17 +47,6 @@ export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
     </StyledSelectedMenu>
   )
 }
-
-const StyledSelectedMenuList = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & .border {
-    width: 1px;
-    background-color: gray;
-  }
-`
-
 export function SelectedMenuList() {
   const menuList = useContext(MenuListContext)
   const selectedMenuIdList = useContext(SelectedMenuListIdContext)
@@ -56,6 +64,35 @@ export function SelectedMenuList() {
   )
 }
 
+export default function Cart() {
+  return (
+    <StyledCart>
+      <SelectedMenuList />
+      <div className="border"></div>
+      <Timer />
+      <div className="button-container">
+        <CancelButton />
+        <PayButton />
+      </div>
+    </StyledCart>
+  )
+}
+
+const StyledSelectedMenu = styled.div`
+  display: flex;
+  gap: 10px;
+`
+
+const StyledSelectedMenuList = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & .border {
+    width: 1px;
+    background-color: gray;
+  }
+`
+
 const StyledCart = styled.div`
   display: grid;
   grid-template-columns: 60% 5% 10% 25%;
@@ -71,17 +108,3 @@ const StyledCart = styled.div`
     gap: 5px;
   }
 `
-
-export default function Cart() {
-  return (
-    <StyledCart>
-      <SelectedMenuList />
-      <div className="border"></div>
-      <Timer />
-      <div className="button-container">
-        <CancelButton />
-        <PayButton />
-      </div>
-    </StyledCart>
-  )
-}

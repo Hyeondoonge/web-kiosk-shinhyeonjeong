@@ -19,6 +19,18 @@ export function Menu({ name }: { name: string }) {
   )
 }
 
+export default function MenuList() {
+  const menuList = useContext(MenuListContext)
+
+  return (
+    <StyledMenuList>
+      {menuList.map(({ id, name }) => (
+        <Menu key={id} name={name} />
+      ))}
+    </StyledMenuList>
+  )
+}
+
 const StyledMenuList = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -35,15 +47,3 @@ const StyledMenuList = styled.div`
     margin: 1px;
   }
 `
-
-export default function MenuList() {
-  const menuList = useContext(MenuListContext)
-
-  return (
-    <StyledMenuList>
-      {menuList.map(({ id, name }) => (
-        <Menu key={id} name={name} />
-      ))}
-    </StyledMenuList>
-  )
-}

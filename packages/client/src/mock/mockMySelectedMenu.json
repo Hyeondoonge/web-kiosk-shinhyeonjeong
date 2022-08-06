@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "name": "아메리카노",
+    "price": 1500,
+    "imgUrl": "https://cdn-icons-png.flaticon.com/512/4856/4856718.png",
+    "totalSellCount": 11,
+    "todaySellCount": 10,
+    "amount": 6,
+    "selectedOptionList": [
+      {
+        "id": 1,
+        "name": "온도",
+        "optionDetail": {
+          "id": 1,
+          "name": "HOT",
+          "price": 500
+        }
+      },
+      {
+        "id": 2,
+        "name": "크기",
+        "optionDetail": {
+          "id": 1,
+          "name": "VENTI",
+          "price": 1000
+        }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "녹차",
+    "price": 500,
+    "imgUrl": "https://cdn-icons-png.flaticon.com/512/4856/4856718.png",
+    "totalSellCount": 12,
+    "todaySellCount": 12,
+    "amount": 6,
+    "selectedOptionList": [
+      {
+        "id": 1,
+        "name": "온도",
+        "optionDetail": {
+          "id": 1,
+          "name": "ICE",
+          "price": 500
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "카페라떼",
+    "price": 6000,
+    "imgUrl": "https://cdn-icons-png.flaticon.com/512/4856/4856718.png",
+    "totalSellCount": 13,
+    "todaySellCount": 11,
+    "amount": 1,
+    "selectedOptionList": [
+      {
+        "id": 1,
+        "name": "온도",
+        "optionDetail": {
+          "id": 1,
+          "name": "ICE",
+          "price": 500
+        }
+      }
+    ]
+  }
+]

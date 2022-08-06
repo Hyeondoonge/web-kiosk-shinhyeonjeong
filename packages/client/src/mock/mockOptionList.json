@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "온도",
+    "optionDetailList": [
+      {
+        "id": 1,
+        "name": "HOT",
+        "price": 500
+      },
+
+      {
+        "id": 2,
+        "name": "ICE",
+        "price": 0
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "크기",
+    "optionDetailList": [
+      {
+        "id": 1,
+        "name": "REGULAR",
+        "price": 500
+      },
+
+      {
+        "id": 2,
+        "name": "GRANDE",
+        "price": 0
+      },
+      {
+        "id": 3,
+        "name": "MAMMAD",
+        "price": 0
+      }
+    ]
+  }
+]

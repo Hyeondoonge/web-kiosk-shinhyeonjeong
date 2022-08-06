@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { MenuListContext, SelectedMenuListIdContext } from './MainPage'
+import { CategoryListContext, SelectedMenuListContext } from './MainPage'
 import styled from 'styled-components'
 
 export function Timer() {
-  const selectedMenuListId = useContext(SelectedMenuListIdContext)
+  const selectedMenuListId = useContext(SelectedMenuListContext)
   const INITIAL_LEFT_TIME = 10
   const [leftTime, setLeftTime] = useState<number>(INITIAL_LEFT_TIME)
   const interval = useRef<any>(null)
@@ -47,18 +47,35 @@ export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
     </StyledSelectedMenu>
   )
 }
+
+interface CategoryProps {
+  id: number
+  name: string
+  menuList: MenuProps[]
+}
+
+interface MenuProps {
+  id: number
+  name: string
+}
+
 export function SelectedMenuList() {
-  const menuList = useContext(MenuListContext)
-  const selectedMenuIdList = useContext(SelectedMenuListIdContext)
+  const categoryList = useContext(CategoryListContext)
+  const selectedMenuList = useContext(SelectedMenuListContext)
+
+  console.log(selectedMenuList)
 
   return (
     <StyledSelectedMenuList>
-      {selectedMenuIdList.map((id) => {
-        const menu = menuList.find(({ id: menuId }) => menuId === id)
+      {selectedMenuList.map(({ categoryId, menuId }) => {
+        const category = categoryList.find(({ id }) => categoryId === id)
 
-        if (menu !== undefined) return <SelectedMenu key={id} menu={menu} />
+        console.log(category)
+        const menu = (category as CategoryProps).menuList.find(
+          ({ id }) => menuId === id
+        ) as MenuProps
 
-        return ''
+        return <SelectedMenu key={`${categoryId}${menuId}`} menu={menu} />
       })}
     </StyledSelectedMenuList>
   )

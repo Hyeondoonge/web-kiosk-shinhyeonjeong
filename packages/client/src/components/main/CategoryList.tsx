@@ -1,15 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
+interface CategoryListProps {
+  categoryList: { id: number; name: string }[]
+  selectedCategoryIndex: number
+  setSelectedCategoryIndex: (index: number) => void
+}
+
 export default function CategoryList({
   categoryList,
-}: {
-  categoryList: { id: number; name: string }[]
-}) {
+  selectedCategoryIndex,
+  setSelectedCategoryIndex,
+}: CategoryListProps) {
+  const onClickCategoryItem = (index: number) => {
+    setSelectedCategoryIndex(index)
+  }
+
   return (
     <StyledCategoryList>
-      {categoryList.map(({ id, name }) => (
-        <li key={id}>
+      {categoryList.map(({ id, name }, index) => (
+        <li
+          key={id}
+          onClick={() => {
+            onClickCategoryItem(index)
+          }}
+        >
           <strong>{name}</strong>
         </li>
       ))}

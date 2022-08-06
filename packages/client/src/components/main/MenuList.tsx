@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { MenuListContext } from './MainPage'
+import { CategoryListContext } from './MainPage'
 import styled from 'styled-components'
 
 export function MenuImage() {
@@ -19,12 +19,18 @@ export function Menu({ name }: { name: string }) {
   )
 }
 
-export default function MenuList() {
-  const menuList = useContext(MenuListContext)
+export default function MenuList({
+  selectedCategoryIndex,
+}: {
+  selectedCategoryIndex: number
+}) {
+  const categoryList = useContext(CategoryListContext)
+
+  console.log(categoryList, selectedCategoryIndex)
 
   return (
     <StyledMenuList>
-      {menuList.map(({ id, name }) => (
+      {categoryList[selectedCategoryIndex].menuList.map(({ id, name }) => (
         <Menu key={id} name={name} />
       ))}
     </StyledMenuList>

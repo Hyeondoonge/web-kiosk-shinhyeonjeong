@@ -4,11 +4,13 @@ import React, { createContext, useEffect, useState } from 'react'
 import Cart from './Cart'
 import CategoryList from './CategoryList'
 import MenuList from './MenuList'
+import { mock } from './mock'
 
-// TODO: 타입 별도 파일로 분리
+// TODO: 타입 별도 파일로 분리, category.ts, Cart.ts에서 중복
 interface CategoryProps {
   id: number
   name: string
+  menuList: MenuProps[]
 }
 
 interface MenuProps {
@@ -16,41 +18,36 @@ interface MenuProps {
   name: string
 }
 
-export const MenuListContext = createContext<
-  {
-    id: number
-    name: string
-  }[]
->([])
+interface SelectedMenuProps {
+  categoryId: number
+  menuId: number
+  options: string
+  count: number
+  menuTotalPrice: number
+}
 
-export const SelectedMenuListIdContext = createContext<number[]>([])
+export const CategoryListContext = createContext<CategoryProps[]>([])
+
+export const SelectedMenuListContext = createContext<SelectedMenuProps[]>([])
 
 export default function MainPage() {
+  // hook
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
   const [categoryList, setCategoryList] = useState<CategoryProps[]>([])
-  const [menuList, setMenuList] = useState<MenuProps[]>([])
-  const [selectedMenuIdList, setSelectedMenuIdList] = useState([2, 5])
+  const [selectedMenuList, setSelectedMenuList] = useState<SelectedMenuProps[]>(
+    []
+  )
 
   const initData = async () => {
     try {
-      let response = await getCategory()
+      const response = await getCategory()
       if ('message' in response) {
         // Error
         throw new Error(response.message)
       }
       const categoryList = response
-      setCategoryList(categoryList)
-
-      const categoryId = categoryList[0].id
-
-      response = await getMenu(categoryId)
-      if ('message' in response) {
-        // Error
-        throw new Error(response.message)
-      }
-
-      const menuList = response
-      console.log(menuList)
-      setMenuList(menuList)
+      setCategoryList(mock)
+      // setCategoryList(categoryList)
     } catch (error) {
       console.log(error)
     }
@@ -64,24 +61,53 @@ export default function MainPage() {
   // Cart에 있었던 selectedMenuIdList를 부모 컴포넌트로 끌어올림.
 
   return (
-    <MenuListContext.Provider value={menuList}>
-      <SelectedMenuListIdContext.Provider value={selectedMenuIdList}>
+    <CategoryListContext.Provider value={categoryList}>
+      <SelectedMenuListContext.Provider value={selectedMenuList}>
         <div>
-          <CategoryList categoryList={categoryList} />
-          <MenuList />
+          {categoryList.length > 0 && (
+            <>
+              <CategoryList
+                categoryList={categoryList}
+                selectedCategoryIndex={selectedCategoryIndex}
+                setSelectedCategoryIndex={setSelectedCategoryIndex}
+              />
+              <MenuList selectedCategoryIndex={selectedCategoryIndex} />
+            </>
+          )}
           <h1>카트</h1>
           <Cart />
         </div>
         <button
           onClick={() => {
-            if (selectedMenuIdList.find((id) => id === 3)) {
-              setSelectedMenuIdList([...selectedMenuIdList, 1])
-            } else setSelectedMenuIdList([...selectedMenuIdList, 3])
+            setSelectedMenuList([
+              ...selectedMenuList,
+              {
+                categoryId: 1,
+                menuId: 4,
+                options: '{"온도": "HOT", "샷 추가": "2SHOT"}',
+                count: 2,
+                menuTotalPrice: 6000,
+              },
+              {
+                categoryId: 1,
+                menuId: 5,
+                options: '{"온도": "ICE"}',
+                count: 1,
+                menuTotalPrice: 3000,
+              },
+              {
+                categoryId: 4,
+                menuId: 10,
+                options: '{"온도": "ICE"}',
+                count: 5,
+                menuTotalPrice: 18000,
+              },
+            ])
           }}
         >
           선택된 메뉴 아이디 추가!
         </button>
-      </SelectedMenuListIdContext.Provider>
-    </MenuListContext.Provider>
+      </SelectedMenuListContext.Provider>
+    </CategoryListContext.Provider>
   )
 }

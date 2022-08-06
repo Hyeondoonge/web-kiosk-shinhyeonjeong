@@ -50,14 +50,24 @@ export function PayButton({
 export function SelectedMenu({
   menu,
   deleteMenuFromCart,
+  updateSelectedMenuAmount,
 }: {
-  menu: { id: number; name: string }
+  menu: { id: number; name: string; count: number }
   deleteMenuFromCart: (id: number) => void
+  updateSelectedMenuAmount: (menuId: number, type: string) => void
 }) {
   return (
     <StyledSelectedMenu>
       <div>{menu?.name ?? ''}</div>
-      <div>- 1개 +</div>
+      <div>
+        <button onClick={() => updateSelectedMenuAmount(menu.id, 'decrease')}>
+          -
+        </button>
+        {menu.count}
+        <button onClick={() => updateSelectedMenuAmount(menu.id, 'increase')}>
+          +
+        </button>
+      </div>
       <button
         onClick={() => {
           deleteMenuFromCart(menu.id)
@@ -82,8 +92,10 @@ interface MenuProps {
 
 export function SelectedMenuList({
   deleteMenuFromCart,
+  updateSelectedMenuAmount,
 }: {
   deleteMenuFromCart: (id: number) => void
+  updateSelectedMenuAmount: (menuId: number, type: string) => void
 }) {
   const categoryList = useContext(CategoryListContext)
   const selectedMenuList = useContext(SelectedMenuListContext)
@@ -92,7 +104,7 @@ export function SelectedMenuList({
 
   return (
     <StyledSelectedMenuList>
-      {selectedMenuList.map(({ categoryId, menuId }) => {
+      {selectedMenuList.map(({ categoryId, menuId, count }) => {
         const category = categoryList.find(({ id }) => categoryId === id)
 
         console.log(category)
@@ -100,11 +112,15 @@ export function SelectedMenuList({
           ({ id }) => menuId === id
         ) as MenuProps
 
+        console.log(category)
+        console.log(menu)
+
         return (
           <SelectedMenu
             key={`${categoryId}${menuId}`}
-            menu={menu}
+            menu={{ ...menu, count }}
             deleteMenuFromCart={deleteMenuFromCart}
+            updateSelectedMenuAmount={updateSelectedMenuAmount}
           />
         )
       })}
@@ -115,13 +131,18 @@ export function SelectedMenuList({
 export default function Cart({
   reset,
   deleteMenuFromCart,
+  updateSelectedMenuAmount,
 }: {
   reset: () => void
   deleteMenuFromCart: (id: number) => void
+  updateSelectedMenuAmount: (menuId: number, type: string) => void
 }) {
   return (
     <StyledCart>
-      <SelectedMenuList deleteMenuFromCart={deleteMenuFromCart} />
+      <SelectedMenuList
+        deleteMenuFromCart={deleteMenuFromCart}
+        updateSelectedMenuAmount={updateSelectedMenuAmount}
+      />
       <div className="border"></div>
       <Timer reset={reset} />
       <div className="button-container">

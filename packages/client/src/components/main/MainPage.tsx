@@ -72,6 +72,17 @@ export default function MainPage() {
     setSelectedMenuList([...newSelectedMenuList])
   }
 
+  const updateSelectedMenuAmount = (menuId: number, type: string) => {
+    const newSelectedMenuList = [...selectedMenuList]
+
+    for (const selectedMenu of newSelectedMenuList) {
+      if (selectedMenu.menuId === menuId) {
+        selectedMenu.count += type === 'increase' ? 1 : -1
+      }
+    }
+    setSelectedMenuList(newSelectedMenuList)
+  }
+
   return (
     <CategoryListContext.Provider value={categoryList}>
       <SelectedMenuListContext.Provider value={selectedMenuList}>
@@ -90,6 +101,7 @@ export default function MainPage() {
           <Cart
             reset={resetSelectedMenuList}
             deleteMenuFromCart={deleteMenuFromCart}
+            updateSelectedMenuAmount={updateSelectedMenuAmount}
           />
         </div>
         <button
@@ -98,21 +110,21 @@ export default function MainPage() {
               ...selectedMenuList,
               {
                 categoryId: 1,
-                menuId: 4,
+                menuId: 416,
                 options: '{"온도": "HOT", "샷 추가": "2SHOT"}',
                 count: 2,
                 menuTotalPrice: 6000,
               },
               {
                 categoryId: 1,
-                menuId: 5,
+                menuId: 85,
                 options: '{"온도": "ICE"}',
                 count: 1,
                 menuTotalPrice: 3000,
               },
               {
-                categoryId: 4,
-                menuId: 10,
+                categoryId: 2,
+                menuId: 22,
                 options: '{"온도": "ICE"}',
                 count: 5,
                 menuTotalPrice: 18000,

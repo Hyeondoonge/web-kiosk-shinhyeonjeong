@@ -9,13 +9,15 @@ export default function CategoryList({
   return (
     <StyledCategoryList>
       {categoryList.map(({ id, name }) => (
-        <h1 key={id}>{name}</h1>
+        <li key={id}>
+          <strong>{name}</strong>
+        </li>
       ))}
     </StyledCategoryList>
   )
 }
 
-const StyledCategoryList = styled.div`
+const StyledCategoryList = styled.ul`
   display: flex;
   border-bottom: 1px solid gray;
   border-top: 1px solid gray;

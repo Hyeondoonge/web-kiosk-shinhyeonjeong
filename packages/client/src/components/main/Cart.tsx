@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CategoryListContext, SelectedMenuListContext } from './MainPage'
 import styled from 'styled-components'
 
-export function Timer() {
+export function Timer({ reset }: { reset: () => void }) {
   const selectedMenuListId = useContext(SelectedMenuListContext)
   const INITIAL_LEFT_TIME = 10
   const [leftTime, setLeftTime] = useState<number>(INITIAL_LEFT_TIME)
@@ -23,6 +23,7 @@ export function Timer() {
   useEffect(() => {
     if (leftTime === 0) {
       // 모든 결제 취소
+      reset()
       clearInterval(interval.current)
     }
   }, [leftTime])
@@ -94,7 +95,7 @@ export default function Cart({ reset }: { reset: () => void }) {
     <StyledCart>
       <SelectedMenuList />
       <div className="border"></div>
-      <Timer />
+      <Timer reset={reset} />
       <div className="button-container">
         <CancelButton
           onClick={() => {

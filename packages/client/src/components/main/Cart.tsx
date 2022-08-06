@@ -38,8 +38,12 @@ export function CancelButton({
   return <button onClick={onClick}>전체 취소하기</button>
 }
 
-export function PayButton() {
-  return <button>결제하기</button>
+export function PayButton({
+  onClick,
+}: {
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+}) {
+  return <button onClick={onClick}>결제하기</button>
 }
 
 export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
@@ -97,7 +101,11 @@ export default function Cart({ reset }: { reset: () => void }) {
             reset()
           }}
         />
-        <PayButton />
+        <PayButton
+          onClick={() => {
+            console.log('결제방식 선택 모달 추가')
+          }}
+        />
       </div>
     </StyledCart>
   )

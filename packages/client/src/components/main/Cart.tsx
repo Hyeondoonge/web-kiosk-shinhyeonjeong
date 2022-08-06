@@ -30,8 +30,12 @@ export function Timer() {
   return <div>{leftTime}초</div>
 }
 
-export function CancelButton() {
-  return <button>전체 취소하기</button>
+export function CancelButton({
+  onClick,
+}: {
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+}) {
+  return <button onClick={onClick}>전체 취소하기</button>
 }
 
 export function PayButton() {
@@ -81,14 +85,18 @@ export function SelectedMenuList() {
   )
 }
 
-export default function Cart() {
+export default function Cart({ reset }: { reset: () => void }) {
   return (
     <StyledCart>
       <SelectedMenuList />
       <div className="border"></div>
       <Timer />
       <div className="button-container">
-        <CancelButton />
+        <CancelButton
+          onClick={() => {
+            reset()
+          }}
+        />
         <PayButton />
       </div>
     </StyledCart>

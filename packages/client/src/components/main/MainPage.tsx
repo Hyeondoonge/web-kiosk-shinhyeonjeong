@@ -60,6 +60,10 @@ export default function MainPage() {
   // + MenuList 아이템 클릭 시 Selected Id가 변경되어서 Cart가 변경되어야함.
   // Cart에 있었던 selectedMenuIdList를 부모 컴포넌트로 끌어올림.
 
+  const resetSelectedMenuList = () => {
+    setSelectedMenuList([])
+  }
+
   return (
     <CategoryListContext.Provider value={categoryList}>
       <SelectedMenuListContext.Provider value={selectedMenuList}>
@@ -75,7 +79,7 @@ export default function MainPage() {
             </>
           )}
           <h1>카트</h1>
-          <Cart />
+          <Cart reset={resetSelectedMenuList} />
         </div>
         <button
           onClick={() => {

@@ -2,6 +2,11 @@ import React, { useContext } from 'react'
 import { CategoryListContext } from './MainPage'
 import styled from 'styled-components'
 
+interface MenuProps {
+  name: string
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void
+}
+
 export function MenuImage() {
   return <div>☕️</div>
 }
@@ -10,13 +15,21 @@ export function MenuInfo({ name }: { name: string }) {
   return <div>{name} 4,000원</div>
 }
 
-export function Menu({ name }: { name: string }) {
+export function Menu({ name, onClick }: MenuProps) {
   return (
-    <div>
+    <div onClick={onClick}>
       <MenuImage />
       <MenuInfo name={name} />
     </div>
   )
+}
+
+interface SelectedMenuProps {
+  categoryId: number
+  menuId: number
+  options: string
+  count: number
+  menuTotalPrice: number
 }
 
 export default function MenuList({
@@ -26,12 +39,14 @@ export default function MenuList({
 }) {
   const categoryList = useContext(CategoryListContext)
 
-  console.log(categoryList, selectedCategoryIndex)
+  const onClickMenu = () => {
+    console.log('메뉴 담기 모달 생성!')
+  }
 
   return (
     <StyledMenuList>
       {categoryList[selectedCategoryIndex].menuList.map(({ id, name }) => (
-        <Menu key={id} name={name} />
+        <Menu key={id} name={name} onClick={() => onClickMenu()} />
       ))}
     </StyledMenuList>
   )

@@ -47,12 +47,24 @@ export function PayButton({
   return <button onClick={onClick}>결제하기</button>
 }
 
-export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
+export function SelectedMenu({
+  menu,
+  deleteMenuFromCart,
+}: {
+  menu: { id: number; name: string }
+  deleteMenuFromCart: (id: number) => void
+}) {
   return (
     <StyledSelectedMenu>
       <div>{menu?.name ?? ''}</div>
       <div>- 1개 +</div>
-      <button>취소</button>
+      <button
+        onClick={() => {
+          deleteMenuFromCart(menu.id)
+        }}
+      >
+        취소
+      </button>
     </StyledSelectedMenu>
   )
 }
@@ -68,7 +80,11 @@ interface MenuProps {
   name: string
 }
 
-export function SelectedMenuList() {
+export function SelectedMenuList({
+  deleteMenuFromCart,
+}: {
+  deleteMenuFromCart: (id: number) => void
+}) {
   const categoryList = useContext(CategoryListContext)
   const selectedMenuList = useContext(SelectedMenuListContext)
 
@@ -84,16 +100,28 @@ export function SelectedMenuList() {
           ({ id }) => menuId === id
         ) as MenuProps
 
-        return <SelectedMenu key={`${categoryId}${menuId}`} menu={menu} />
+        return (
+          <SelectedMenu
+            key={`${categoryId}${menuId}`}
+            menu={menu}
+            deleteMenuFromCart={deleteMenuFromCart}
+          />
+        )
       })}
     </StyledSelectedMenuList>
   )
 }
 
-export default function Cart({ reset }: { reset: () => void }) {
+export default function Cart({
+  reset,
+  deleteMenuFromCart,
+}: {
+  reset: () => void
+  deleteMenuFromCart: (id: number) => void
+}) {
   return (
     <StyledCart>
-      <SelectedMenuList />
+      <SelectedMenuList deleteMenuFromCart={deleteMenuFromCart} />
       <div className="border"></div>
       <Timer reset={reset} />
       <div className="button-container">

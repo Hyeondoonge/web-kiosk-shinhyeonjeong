@@ -64,6 +64,14 @@ export default function MainPage() {
     setSelectedMenuList([])
   }
 
+  const deleteMenuFromCart = (menuId: number) => {
+    const newSelectedMenuList = selectedMenuList.filter(
+      ({ menuId: selectedMenuId }) => !(menuId === selectedMenuId)
+    )
+
+    setSelectedMenuList([...newSelectedMenuList])
+  }
+
   return (
     <CategoryListContext.Provider value={categoryList}>
       <SelectedMenuListContext.Provider value={selectedMenuList}>
@@ -79,7 +87,10 @@ export default function MainPage() {
             </>
           )}
           <h1>카트</h1>
-          <Cart reset={resetSelectedMenuList} />
+          <Cart
+            reset={resetSelectedMenuList}
+            deleteMenuFromCart={deleteMenuFromCart}
+          />
         </div>
         <button
           onClick={() => {

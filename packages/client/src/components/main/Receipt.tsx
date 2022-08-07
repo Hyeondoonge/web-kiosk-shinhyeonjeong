@@ -44,7 +44,7 @@ function Timer() {
   return <div>남은시간 {LEFT_TIME}초</div>
 }
 
-export function Receipt({
+export default function Receipt({
   order: { id, orderNumber, selectedMenuList, paymentMethod, paymentAmount },
 }: ReceiptProps) {
   const ORDER_AMOUNT = 50000

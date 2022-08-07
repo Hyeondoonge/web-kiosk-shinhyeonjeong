@@ -21,7 +21,7 @@ function PayButton() {
   return <button>현금 결제하기</button>
 }
 
-export function CachePayment() {
+export default function CachePayment() {
   return (
     <div>
       <div>

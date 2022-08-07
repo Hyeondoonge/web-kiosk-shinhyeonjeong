@@ -29,7 +29,7 @@ function MenuOption({
   )
 }
 
-export function MenuOptionList({ optionList }: MenuOptionListProps) {
+export default function MenuOptionList({ optionList }: MenuOptionListProps) {
   return (
     <ul>
       {optionList.map((option) => (

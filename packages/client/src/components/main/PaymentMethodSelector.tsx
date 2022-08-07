@@ -1,4 +1,4 @@
-export function PaymentMethodSelector() {
+export default function PaymentMethodSelector() {
   return (
     <div>
       <button>카드 결제</button>

@@ -1,6 +1,6 @@
 import { MenuType, OptionType, OptionWithDetailType } from 'type'
-import { AmountController } from './AmountController'
-import { MenuOptionList } from './MenuOptionList'
+import AmountController from './AmountController'
+import MenuOptionList from './MenuOptionList'
 
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   return (
@@ -29,7 +29,7 @@ interface MenuOptionSelectorProps {
   optionList: OptionWithDetailType[]
 }
 
-export function MenuOptionSelector({
+export default function MenuOptionSelector({
   menu,
   optionList,
 }: MenuOptionSelectorProps) {

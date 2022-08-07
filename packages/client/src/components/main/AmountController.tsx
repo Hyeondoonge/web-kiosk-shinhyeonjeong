@@ -1,4 +1,4 @@
-export function AmountController() {
+export default function AmountController() {
   return (
     <div>
       <button>-</button>

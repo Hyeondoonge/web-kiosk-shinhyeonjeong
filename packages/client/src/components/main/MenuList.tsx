@@ -23,7 +23,7 @@ interface MenuListProps {
   menuList: MenuType[]
 }
 
-export function MenuList({ menuList }: MenuListProps) {
+export default function MenuList({ menuList }: MenuListProps) {
   const popularMenuId = [...menuList].sort(
     (a, b) => b.totalSellCount - a.totalSellCount
   )[0].id

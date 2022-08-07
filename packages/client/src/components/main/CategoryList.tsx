@@ -17,7 +17,7 @@ function CategoryListItem({
   return <li>{isSelected ? <strong>{name}</strong> : name}</li>
 }
 
-export function CategoryList({
+export default function CategoryList({
   categoryList,
   selectedCategoryId,
 }: CategoryListProps) {

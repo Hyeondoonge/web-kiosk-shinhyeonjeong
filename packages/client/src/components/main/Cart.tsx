@@ -53,7 +53,7 @@ function Button({ value }: { value: string }) {
   return <button>{value}</button>
 }
 
-export function Cart({ selectedMenuList }: CartProps) {
+export default function Cart({ selectedMenuList }: CartProps) {
   return (
     <div>
       <SelectedMenuList selectedMenuList={selectedMenuList} />

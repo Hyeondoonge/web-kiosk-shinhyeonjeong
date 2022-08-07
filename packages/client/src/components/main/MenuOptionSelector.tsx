@@ -1,4 +1,10 @@
-import { MenuType, OptionType, OptionWithDetailType } from 'type'
+import { useEffect, useState } from 'react'
+import {
+  MenuType,
+  OptionType,
+  OptionWithDetailType,
+  SelectedOptionType,
+} from 'type'
 import AmountController from './AmountController'
 import MenuOptionList from './MenuOptionList'
 
@@ -33,6 +39,9 @@ export default function MenuOptionSelector({
   menu,
   optionList,
 }: MenuOptionSelectorProps) {
+  const [selectedOption, setSelectedOption] = useState<SelectedOptionType[]>([])
+  const [amount, setAmount] = useState(1)
+
   return (
     <div>
       <Menu menu={menu} />

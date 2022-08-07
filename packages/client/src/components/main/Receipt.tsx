@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { OrderType, SelectedMenuType } from 'type'
 
 interface ReceiptProps {
@@ -39,9 +40,10 @@ function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
 }
 
 function Timer() {
-  const LEFT_TIME = 6
+  const INITIAL_LEFT_TIME = 10
+  const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
 
-  return <div>남은시간 {LEFT_TIME}초</div>
+  return <div>남은시간 {leftTime}초</div>
 }
 
 export default function Receipt({

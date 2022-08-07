@@ -1,49 +1,46 @@
-import React, { useContext } from 'react'
-import { MenuListContext } from './MainPage'
-import styled from 'styled-components'
+import { MenuType } from 'type'
 
-export function MenuImage() {
-  return <div>☕️</div>
+interface MenuItemProps {
+  isPopular: boolean
+  menu: MenuType
 }
 
-export function MenuInfo({ name }: { name: string }) {
-  return <div>{name} 4,000원</div>
-}
-
-export function Menu({ name }: { name: string }) {
+function MenuListItem({
+  isPopular,
+  menu: { id, name, price, imgUrl },
+}: MenuItemProps) {
   return (
-    <div>
-      <MenuImage />
-      <MenuInfo name={name} />
-    </div>
+    <li>
+      <div>{isPopular ? '인기' : '인기없음'}</div>
+      <img src={imgUrl} alt={name} />
+      <div>{name}</div>
+      <div>{price}</div>
+    </li>
   )
 }
 
-export default function MenuList() {
-  const menuList = useContext(MenuListContext)
+interface MenuListProps {
+  menuList: MenuType[]
+}
+
+export function MenuList({ menuList }: MenuListProps) {
+  const popularMenuId = [...menuList].sort(
+    (a, b) => b.totalSellCount - a.totalSellCount
+  )[0].id
+
+  const sortedMenuList = [...menuList].sort(
+    (a, b) => b.todaySellCount - a.todaySellCount
+  )
 
   return (
-    <StyledMenuList>
-      {menuList.map(({ id, name }) => (
-        <Menu key={id} name={name} />
+    <ul>
+      {sortedMenuList.map((menu) => (
+        <MenuListItem
+          key={menu.id}
+          menu={menu}
+          isPopular={popularMenuId === menu.id}
+        />
       ))}
-    </StyledMenuList>
+    </ul>
   )
 }
-
-const StyledMenuList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  & > * {
-    width: 200px;
-    height: 300px;
-    font-size: large;
-    border: 1px solid black;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 1px;
-  }
-`

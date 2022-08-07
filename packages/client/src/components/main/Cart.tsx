@@ -1,110 +1,65 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { MenuListContext, SelectedMenuListIdContext } from './MainPage'
-import styled from 'styled-components'
+import { SelectedMenuType } from 'type'
 
-export function Timer() {
-  const selectedMenuListId = useContext(SelectedMenuListIdContext)
-  const INITIAL_LEFT_TIME = 10
-  const [leftTime, setLeftTime] = useState<number>(INITIAL_LEFT_TIME)
-  const interval = useRef<any>(null)
+interface CartProps {
+  selectedMenuList: SelectedMenuType[]
+}
 
-  useEffect(() => {
-    if (interval.current) {
-      clearInterval(interval.current)
+interface SelectedMenuListProps {
+  selectedMenuList: SelectedMenuType[]
+}
+
+function SelectedMenuList({ selectedMenuList }: SelectedMenuListProps) {
+  const totalAmount = (selectedMenuWithOption: SelectedMenuType) => {
+    const { price, amount, selectedOptionList } = selectedMenuWithOption
+    let sum = 0
+
+    for (const selectedOption of selectedOptionList) {
+      sum += selectedOption.optionDetail.price
     }
-    setLeftTime(INITIAL_LEFT_TIME)
 
-    // + 담긴 상품이 없을 때는 실행되지 않도록 할 수도 있음.
-    interval.current = setInterval(() => {
-      setLeftTime((leftTime) => leftTime - 1)
-    }, 1000)
-  }, [selectedMenuListId])
+    sum += price
 
-  useEffect(() => {
-    if (leftTime === 0) {
-      // 모든 결제 취소
-      clearInterval(interval.current)
-    }
-  }, [leftTime])
-
-  return <div>{leftTime}초</div>
-}
-
-export function CancelButton() {
-  return <button>전체 취소하기</button>
-}
-
-export function PayButton() {
-  return <button>결제하기</button>
-}
-
-export function SelectedMenu({ menu }: { menu: { id: number; name: string } }) {
-  return (
-    <StyledSelectedMenu>
-      <div>{menu?.name ?? ''}</div>
-      <div>- 1개 +</div>
-      <button>취소</button>
-    </StyledSelectedMenu>
-  )
-}
-export function SelectedMenuList() {
-  const menuList = useContext(MenuListContext)
-  const selectedMenuIdList = useContext(SelectedMenuListIdContext)
+    return sum * amount
+  }
 
   return (
-    <StyledSelectedMenuList>
-      {selectedMenuIdList.map((id) => {
-        const menu = menuList.find(({ id: menuId }) => menuId === id)
+    <ul>
+      {selectedMenuList.map((selectedMenu) => {
+        const { id, name, price, selectedOptionList, amount } = selectedMenu
 
-        if (menu !== undefined) return <SelectedMenu key={id} menu={menu} />
-
-        return ''
+        return (
+          <li key={id}>
+            <button>X</button>
+            <div>{name}</div>
+            <div>{totalAmount(selectedMenu).toLocaleString()}원</div>
+            <div>
+              {selectedOptionList
+                .map(({ optionDetail }) => optionDetail.name)
+                .join(', ')}
+            </div>
+            <div>{amount}개</div>
+          </li>
+        )
       })}
-    </StyledSelectedMenuList>
+    </ul>
   )
 }
 
-export default function Cart() {
+function Timer() {
+  return <div>시계 10초</div>
+}
+
+function Button({ value }: { value: string }) {
+  return <button>{value}</button>
+}
+
+export function Cart({ selectedMenuList }: CartProps) {
   return (
-    <StyledCart>
-      <SelectedMenuList />
-      <div className="border"></div>
+    <div>
+      <SelectedMenuList selectedMenuList={selectedMenuList} />
       <Timer />
-      <div className="button-container">
-        <CancelButton />
-        <PayButton />
-      </div>
-    </StyledCart>
+      <Button value="전체 취소" />
+      <Button value="15000원 결제하기" />
+    </div>
   )
 }
-
-const StyledSelectedMenu = styled.div`
-  display: flex;
-  gap: 10px;
-`
-
-const StyledSelectedMenuList = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & .border {
-    width: 1px;
-    background-color: gray;
-  }
-`
-
-const StyledCart = styled.div`
-  display: grid;
-  grid-template-columns: 60% 5% 10% 25%;
-
-  & .border {
-    width: 1px;
-    background-color: gray;
-  }
-
-  & .button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-`

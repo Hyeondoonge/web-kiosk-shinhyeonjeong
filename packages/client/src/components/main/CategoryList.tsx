@@ -1,25 +1,35 @@
-import React from 'react'
-import styled from 'styled-components'
+import { CategoryType } from '../../type'
 
-export default function CategoryList({
-  categoryList,
-}: {
-  categoryList: { id: number; name: string }[]
-}) {
-  return (
-    <StyledCategoryList>
-      {categoryList.map(({ id, name }) => (
-        <li key={id}>
-          <strong>{name}</strong>
-        </li>
-      ))}
-    </StyledCategoryList>
-  )
+interface CategoryListProps {
+  categoryList: CategoryType[]
+  selectedCategoryId: number
 }
 
-const StyledCategoryList = styled.ul`
-  display: flex;
-  border-bottom: 1px solid gray;
-  border-top: 1px solid gray;
-  gap: 50px;
-`
+interface CategoryListItemProps {
+  category: CategoryType
+  isSelected: boolean
+}
+
+function CategoryListItem({
+  category: { id, name },
+  isSelected,
+}: CategoryListItemProps) {
+  return <li>{isSelected ? <strong>{name}</strong> : name}</li>
+}
+
+export function CategoryList({
+  categoryList,
+  selectedCategoryId,
+}: CategoryListProps) {
+  return (
+    <ul>
+      {categoryList.map((category) => (
+        <CategoryListItem
+          key={category.id}
+          category={category}
+          isSelected={selectedCategoryId === category.id}
+        />
+      ))}
+    </ul>
+  )
+}

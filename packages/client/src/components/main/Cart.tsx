@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { SelectedMenuType } from 'type'
 
 interface CartProps {
@@ -46,7 +47,10 @@ function SelectedMenuList({ selectedMenuList }: SelectedMenuListProps) {
 }
 
 function Timer() {
-  return <div>시계 10초</div>
+  const INITIAL_LEFT_TIME = 60
+  const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
+
+  return <div>시계 {leftTime}초</div>
 }
 
 function Button({ value }: { value: string }) {

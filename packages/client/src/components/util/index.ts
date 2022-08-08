@@ -1,6 +1,6 @@
 import { CartMenuType } from 'type'
 
-export const cartTotalAmount = (cartMenuList: CartMenuType[]) => {
+export const getCartTotalAmount = (cartMenuList: CartMenuType[]) => {
   let priceAllMenu = 0
 
   for (const selectedMenu of cartMenuList) {

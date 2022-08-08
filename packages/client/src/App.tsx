@@ -4,7 +4,7 @@ import CategoryList from 'components/main/CategoryList'
 import MenuList from 'components/main/MenuList'
 import MenuOptionSelector from 'components/main/MenuOptionSelector'
 import Receipt from 'components/main/Receipt'
-import { cartTotalAmount } from 'components/util'
+import { getCartTotalAmount } from 'components/util'
 import React, { useEffect, useState } from 'react'
 import { CartMenuType, CategoryType, MenuType, SelectedMenuType } from 'type'
 import mock from './mock/mockCategoryList.json'
@@ -66,7 +66,7 @@ function App() {
       />
       <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
       <Receipt order={order} deleteAllCartMenu={deleteAllCartMenu} />
-      <CachePayment orderAmount={cartTotalAmount(cartMenuList)} />
+      <CachePayment orderAmount={getCartTotalAmount(cartMenuList)} />
     </div>
   )
 }

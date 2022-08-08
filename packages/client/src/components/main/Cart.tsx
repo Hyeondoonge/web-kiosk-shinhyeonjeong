@@ -1,4 +1,4 @@
-import { cartTotalAmount } from 'components/util'
+import { getCartTotalAmount } from 'components/util'
 import { useEffect, useRef, useState } from 'react'
 import { CartMenuType, SelectedMenuType } from 'type'
 import AmountController from './AmountController'
@@ -136,7 +136,9 @@ export default function Cart({
       />
       <Button value="전체 취소" onClick={onClickAllCancel} />
       <Button
-        value={`${cartTotalAmount(cartMenuList).toLocaleString()}원 결제하기`}
+        value={`${getCartTotalAmount(
+          cartMenuList
+        ).toLocaleString()}원 결제하기`}
         onClick={onClickPayButton}
       />
     </div>

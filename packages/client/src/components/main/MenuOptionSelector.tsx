@@ -15,12 +15,14 @@ interface MenuAmountProps {
 }
 
 interface AddButtonProps {
+  price: number
   onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 interface MenuOptionSelectorProps {
   menu: MenuType
   optionList: OptionWithDetailType[]
+  updateSelectedMenuList: (selectedMenu: SelectedMenuType) => void
 }
 
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
@@ -33,8 +35,8 @@ function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   )
 }
 
-function AddButton({ onClick }: AddButtonProps) {
-  return <button onClick={onClick}>500원 담기</button>
+function AddButton({ onClick, price }: AddButtonProps) {
+  return <button onClick={onClick}>{price.toLocaleString()}원 담기</button>
 }
 export function MenuAmount(props: MenuAmountProps) {
   return (
@@ -47,6 +49,7 @@ export function MenuAmount(props: MenuAmountProps) {
 export default function MenuOptionSelector({
   menu,
   optionList,
+  updateSelectedMenuList,
 }: MenuOptionSelectorProps) {
   const INITIAL_SELECTED_OPTIONLIST = optionList.map(
     ({ id, name, optionDetailList }) => ({
@@ -80,7 +83,20 @@ export default function MenuOptionSelector({
       amount,
     }
     // 장바구니 업데이트
-    console.log(selectedMenu)
+    updateSelectedMenuList(selectedMenu)
+  }
+
+  const totalPrice = (selectedMenuWithOption: SelectedMenuType) => {
+    const { price, amount, selectedOptionList } = selectedMenuWithOption
+    let sum = 0
+
+    for (const selectedOption of selectedOptionList) {
+      sum += selectedOption.optionDetail.price
+    }
+
+    sum += price
+
+    return sum * amount
   }
 
   return (
@@ -92,7 +108,10 @@ export default function MenuOptionSelector({
         updateSelectedOption={updateSelectedOption}
       />
       <MenuAmount amount={amount} updateAmount={setAmount} />
-      <AddButton onClick={onClickAddButton} />
+      <AddButton
+        onClick={onClickAddButton}
+        price={totalPrice({ ...menu, selectedOptionList, amount })}
+      />
     </div>
   )
 }

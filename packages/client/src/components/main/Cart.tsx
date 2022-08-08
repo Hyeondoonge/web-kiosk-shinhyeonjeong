@@ -1,12 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { SelectedMenuType } from 'type'
 
 interface CartProps {
   selectedMenuList: SelectedMenuType[]
+  deleteAllSelectedMenu: () => void
 }
 
 interface SelectedMenuListProps {
   selectedMenuList: SelectedMenuType[]
+}
+
+interface ButtonProps {
+  value: string
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 function SelectedMenuList({ selectedMenuList }: SelectedMenuListProps) {
@@ -25,7 +31,7 @@ function SelectedMenuList({ selectedMenuList }: SelectedMenuListProps) {
 
   return (
     <ul>
-      {selectedMenuList.map((selectedMenu) => {
+      {selectedMenuList.map((selectedMenu, index) => {
         const { id, name, price, selectedOptionList, amount } = selectedMenu
 
         return (
@@ -46,23 +52,60 @@ function SelectedMenuList({ selectedMenuList }: SelectedMenuListProps) {
   )
 }
 
-function Timer() {
-  const INITIAL_LEFT_TIME = 60
-  const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
-
-  return <div>시계 {leftTime}초</div>
+interface TimerProps {
+  selectedMenuList: SelectedMenuType[]
+  deleteAllSelectedMenu: () => void
 }
 
-function Button({ value }: { value: string }) {
-  return <button>{value}</button>
+function Timer({ selectedMenuList, deleteAllSelectedMenu }: TimerProps) {
+  const INITIAL_LEFT_TIME = 10
+  const [leftTime, setLeftTime] = useState<number>(INITIAL_LEFT_TIME)
+  const interval = useRef<any>(null)
+
+  useEffect(() => {
+    if (interval.current) {
+      clearInterval(interval.current)
+    }
+    setLeftTime(INITIAL_LEFT_TIME)
+
+    if (selectedMenuList.length === 0) return
+
+    // + 담긴 상품이 없을 때는 실행되지 않도록 할 수도 있음.
+    interval.current = setInterval(() => {
+      setLeftTime((leftTime) => leftTime - 1)
+    }, 1000)
+  }, [selectedMenuList])
+
+  useEffect(() => {
+    if (leftTime === 0) {
+      clearInterval(interval.current)
+      deleteAllSelectedMenu()
+    }
+  }, [leftTime])
+
+  return <div>{leftTime}초</div>
 }
 
-export default function Cart({ selectedMenuList }: CartProps) {
+function Button({ onClick, value }: ButtonProps) {
+  return <button onClick={onClick}>{value}</button>
+}
+
+export default function Cart({
+  selectedMenuList,
+  deleteAllSelectedMenu,
+}: CartProps) {
+  const onClickAllCancel = () => {
+    deleteAllSelectedMenu()
+  }
+
   return (
     <div>
       <SelectedMenuList selectedMenuList={selectedMenuList} />
-      <Timer />
-      <Button value="전체 취소" />
+      <Timer
+        selectedMenuList={selectedMenuList}
+        deleteAllSelectedMenu={deleteAllSelectedMenu}
+      />
+      <Button value="전체 취소" onClick={onClickAllCancel} />
       <Button value="15000원 결제하기" />
     </div>
   )

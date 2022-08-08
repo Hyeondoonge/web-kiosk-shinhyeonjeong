@@ -30,6 +30,10 @@ function App() {
     setSelectedMenuList(newSelectedMenuList)
   }
 
+  const deleteAllSelectedMenu = () => {
+    setSelectedMenuList([])
+  }
+
   const menuList =
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
@@ -43,7 +47,10 @@ function App() {
       />
       <MenuList menuList={menuList} />
       <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
-      <Cart selectedMenuList={selectedMenuList} />
+      <Cart
+        selectedMenuList={selectedMenuList}
+        deleteAllSelectedMenu={deleteAllSelectedMenu}
+      />
       <MenuOptionSelector
         menu={mock[0].menuList[0]}
         optionList={mockOptionList}

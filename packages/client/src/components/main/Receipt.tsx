@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { OrderType, SelectedMenuType } from 'type'
 
 interface ReceiptProps {
@@ -43,7 +43,28 @@ function Timer() {
   const INITIAL_LEFT_TIME = 10
   const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
 
-  return <div>남은시간 {leftTime}초</div>
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLeftTime((leftTIme) => leftTIme - 1)
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (leftTime === 0) {
+      console.log('close receipt')
+    }
+  }, [leftTime])
+
+  return (
+    <div>
+      남은시간 {leftTime}초
+      <div>주의: 이 화면은 10초 뒤에 자동으로 사라집니다.</div>
+    </div>
+  )
 }
 
 export default function Receipt({

@@ -3,10 +3,15 @@ import { OrderType, SelectedMenuType } from 'type'
 
 interface ReceiptProps {
   order: OrderType
+  deleteAllCartMenu: () => void
 }
 
 interface OrderedMenuListProps {
   selectedMenuList: SelectedMenuType[]
+}
+
+interface TimerProps {
+  deleteAllCartMenu: () => void
 }
 
 function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
@@ -39,7 +44,7 @@ function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
   )
 }
 
-function Timer() {
+function Timer({ deleteAllCartMenu }: TimerProps) {
   const INITIAL_LEFT_TIME = 10
   const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
 
@@ -55,6 +60,7 @@ function Timer() {
 
   useEffect(() => {
     if (leftTime === 0) {
+      deleteAllCartMenu()
       console.log('close receipt')
     }
   }, [leftTime])
@@ -69,11 +75,13 @@ function Timer() {
 
 export default function Receipt({
   order: { id, orderNumber, selectedMenuList, paymentMethod, paymentAmount },
+  deleteAllCartMenu,
 }: ReceiptProps) {
   const ORDER_AMOUNT = 50000
 
   return (
     <div>
+      <button onClick={deleteAllCartMenu}>영수증 닫기</button>
       <div>주문 번호 {orderNumber}</div>
       <OrderedMenuList selectedMenuList={selectedMenuList} />
       <div>
@@ -82,7 +90,7 @@ export default function Receipt({
         <div>잔돈 {ORDER_AMOUNT - paymentAmount}</div>
         <div>결제방법 {paymentMethod}</div>
       </div>
-      <Timer />
+      <Timer deleteAllCartMenu={deleteAllCartMenu} />
     </div>
   )
 }

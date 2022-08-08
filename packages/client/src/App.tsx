@@ -65,7 +65,7 @@ function App() {
         updateSelectedMenuList={updateSelectedMenuList}
       />
       <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
-      <Receipt order={order} />
+      <Receipt order={order} deleteAllCartMenu={deleteAllCartMenu} />
       <CachePayment orderAmount={cartTotalAmount(cartMenuList)} />
     </div>
   )

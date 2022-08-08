@@ -24,6 +24,12 @@ function App() {
     setSelectedCategoryId(newSelectedCategoryId)
   }
 
+  const updateSelectedMenuList = (selectedMenu: SelectedMenuType) => {
+    const newSelectedMenuList = [...selectedMenuList]
+    newSelectedMenuList.push(selectedMenu)
+    setSelectedMenuList(newSelectedMenuList)
+  }
+
   const menuList =
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
@@ -36,11 +42,15 @@ function App() {
         setSelectedCategoryId={setSelectedCategoryId}
       />
       <MenuList menuList={menuList} />
-      {/* <MenuOptionSelector
+      <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
+      <Cart selectedMenuList={selectedMenuList} />
+      <MenuOptionSelector
         menu={mock[0].menuList[0]}
         optionList={mockOptionList}
+        updateSelectedMenuList={updateSelectedMenuList}
       />
-      <Receipt order={order} /> */}
+      <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
+      <Receipt order={order} />
     </div>
   )
 }

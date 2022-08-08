@@ -5,7 +5,7 @@ import MenuList from 'components/main/MenuList'
 import MenuOptionSelector from 'components/main/MenuOptionSelector'
 import Receipt from 'components/main/Receipt'
 import React, { useEffect, useState } from 'react'
-import { CategoryType, MenuType, SelectedMenuType } from 'type'
+import { CartMenuType, CategoryType, MenuType, SelectedMenuType } from 'type'
 import mock from './mock/mockCategoryList.json'
 import mockOptionList from './mock/mockOptionList.json'
 import order from './mock/mockOrderedMenuList.json'
@@ -13,9 +13,7 @@ import order from './mock/mockOrderedMenuList.json'
 function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState(-1)
   const [categoryList, setCategoryList] = useState<CategoryType[]>([])
-  const [selectedMenuList, setSelectedMenuList] = useState<SelectedMenuType[]>(
-    []
-  )
+  const [cartMenuList, setCartMenuList] = useState<CartMenuType[]>([])
   useEffect(() => {
     setCategoryList(mock)
   }, [])
@@ -25,13 +23,19 @@ function App() {
   }
 
   const updateSelectedMenuList = (selectedMenu: SelectedMenuType) => {
-    const newSelectedMenuList = [...selectedMenuList]
-    newSelectedMenuList.push(selectedMenu)
-    setSelectedMenuList(newSelectedMenuList)
+    const newSelectedMenuList = [...cartMenuList]
+
+    // id 달아주기
+    const cartMenu: CartMenuType = {
+      cartId: new Date().getTime(),
+      ...selectedMenu,
+    }
+    newSelectedMenuList.push(cartMenu)
+    setCartMenuList(newSelectedMenuList)
   }
 
-  const deleteAllSelectedMenu = () => {
-    setSelectedMenuList([])
+  const deleteAllCartMenu = () => {
+    setCartMenuList([])
   }
 
   const menuList =
@@ -48,8 +52,11 @@ function App() {
       <MenuList menuList={menuList} />
       <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
       <Cart
-        selectedMenuList={selectedMenuList}
-        deleteAllSelectedMenu={deleteAllSelectedMenu}
+        cartMenuList={cartMenuList}
+        updateCartMenuList={(newCartMenuList) => {
+          setCartMenuList(newCartMenuList)
+        }}
+        deleteAllCartMenu={deleteAllCartMenu}
       />
       <MenuOptionSelector
         menu={mock[0].menuList[0]}

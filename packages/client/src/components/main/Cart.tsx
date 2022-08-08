@@ -98,6 +98,26 @@ export default function Cart({
     deleteAllSelectedMenu()
   }
 
+  const onClickPayButton = () => {
+    console.log('open modal')
+  }
+
+  const totalAmount = (selectedMenuList: SelectedMenuType[]) => {
+    let priceAllMenu = 0
+
+    for (const selectedMenu of selectedMenuList) {
+      let pricePerMenuWithOption = 0
+      pricePerMenuWithOption += selectedMenu.price
+      for (const selectedOption of selectedMenu.selectedOptionList) {
+        pricePerMenuWithOption += selectedOption.optionDetail.price
+      }
+      pricePerMenuWithOption *= selectedMenu.amount
+      priceAllMenu += pricePerMenuWithOption
+    }
+
+    return priceAllMenu
+  }
+
   return (
     <div>
       <SelectedMenuList selectedMenuList={selectedMenuList} />
@@ -106,7 +126,10 @@ export default function Cart({
         deleteAllSelectedMenu={deleteAllSelectedMenu}
       />
       <Button value="전체 취소" onClick={onClickAllCancel} />
-      <Button value="15000원 결제하기" />
+      <Button
+        value={`${totalAmount(selectedMenuList).toLocaleString()}원 결제하기`}
+        onClick={onClickPayButton}
+      />
     </div>
   )
 }

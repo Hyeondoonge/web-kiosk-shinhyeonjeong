@@ -28,7 +28,7 @@ interface MenuOptionSelectorProps {
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   return (
     <div>
-      <img src={imgUrl} alt={name} />
+      <img src={imgUrl} alt={name} width="10%" />
       <div>{name}</div>
       <div>{price}</div>
     </div>
@@ -67,7 +67,6 @@ export default function MenuOptionSelector({
 
   const updateSelectedOption = (newSelectedOption: SelectedOptionType) => {
     const newSelectedOptionList = [...selectedOptionList]
-
     for (const selectedOption of newSelectedOptionList) {
       if (selectedOption.id === newSelectedOption.id) {
         selectedOption.optionDetail = newSelectedOption.optionDetail
@@ -79,9 +78,13 @@ export default function MenuOptionSelector({
   const onClickAddButton = () => {
     const selectedMenu: SelectedMenuType = {
       ...menu,
-      selectedOptionList,
+      selectedOptionList: selectedOptionList.map((selectedOption) => ({
+        ...selectedOption,
+      })),
       amount,
     }
+
+    console.log(selectedMenu.selectedOptionList)
     // 장바구니 업데이트
     updateSelectedMenuList(selectedMenu)
   }

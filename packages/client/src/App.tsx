@@ -42,6 +42,22 @@ function App() {
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
 
+  const cartTotalAmount = (cartMenuList: CartMenuType[]) => {
+    let priceAllMenu = 0
+
+    for (const selectedMenu of cartMenuList) {
+      let pricePerMenuWithOption = 0
+      pricePerMenuWithOption += selectedMenu.price
+      for (const selectedOption of selectedMenu.selectedOptionList) {
+        pricePerMenuWithOption += selectedOption.optionDetail.price
+      }
+      pricePerMenuWithOption *= selectedMenu.amount
+      priceAllMenu += pricePerMenuWithOption
+    }
+
+    return priceAllMenu
+  }
+
   return (
     <div className="App">
       <CategoryList
@@ -65,6 +81,7 @@ function App() {
       />
       <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
       <Receipt order={order} />
+      <CachePayment orderAmount={cartTotalAmount(cartMenuList)} />
     </div>
   )
 }

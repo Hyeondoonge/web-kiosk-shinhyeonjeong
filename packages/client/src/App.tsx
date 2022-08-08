@@ -4,6 +4,7 @@ import CategoryList from 'components/main/CategoryList'
 import MenuList from 'components/main/MenuList'
 import MenuOptionSelector from 'components/main/MenuOptionSelector'
 import Receipt from 'components/main/Receipt'
+import { cartTotalAmount } from 'components/util'
 import React, { useEffect, useState } from 'react'
 import { CartMenuType, CategoryType, MenuType, SelectedMenuType } from 'type'
 import mock from './mock/mockCategoryList.json'
@@ -41,22 +42,6 @@ function App() {
   const menuList =
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
-
-  const cartTotalAmount = (cartMenuList: CartMenuType[]) => {
-    let priceAllMenu = 0
-
-    for (const selectedMenu of cartMenuList) {
-      let pricePerMenuWithOption = 0
-      pricePerMenuWithOption += selectedMenu.price
-      for (const selectedOption of selectedMenu.selectedOptionList) {
-        pricePerMenuWithOption += selectedOption.optionDetail.price
-      }
-      pricePerMenuWithOption *= selectedMenu.amount
-      priceAllMenu += pricePerMenuWithOption
-    }
-
-    return priceAllMenu
-  }
 
   return (
     <div className="App">

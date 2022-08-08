@@ -1,3 +1,4 @@
+import { cartTotalAmount } from 'components/util'
 import { useEffect, useRef, useState } from 'react'
 import { CartMenuType, SelectedMenuType } from 'type'
 import AmountController from './AmountController'
@@ -123,22 +124,6 @@ export default function Cart({
     console.log('open modal')
   }
 
-  const totalAmount = (cartMenuList: CartMenuType[]) => {
-    let priceAllMenu = 0
-
-    for (const selectedMenu of cartMenuList) {
-      let pricePerMenuWithOption = 0
-      pricePerMenuWithOption += selectedMenu.price
-      for (const selectedOption of selectedMenu.selectedOptionList) {
-        pricePerMenuWithOption += selectedOption.optionDetail.price
-      }
-      pricePerMenuWithOption *= selectedMenu.amount
-      priceAllMenu += pricePerMenuWithOption
-    }
-
-    return priceAllMenu
-  }
-
   return (
     <div>
       <CartMenuList
@@ -151,7 +136,7 @@ export default function Cart({
       />
       <Button value="전체 취소" onClick={onClickAllCancel} />
       <Button
-        value={`${totalAmount(cartMenuList).toLocaleString()}원 결제하기`}
+        value={`${cartTotalAmount(cartMenuList).toLocaleString()}원 결제하기`}
         onClick={onClickPayButton}
       />
     </div>

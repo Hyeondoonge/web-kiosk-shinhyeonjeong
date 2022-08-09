@@ -1,33 +1,57 @@
-import React, { MouseEvent, MouseEventHandler, useRef, useState } from 'react'
+import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+const ITEM_WIDTH = 200
+
 const StyledSwiper = styled.div<{ width: string }>`
-  width: ${(props) => props.width}px;
-  overflow-x: hidden;
-  overflow: auto;
+  width: ${(props) => props.width};
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+`
+
+const StyledList = styled.ul<{ listLength: number }>`
+  width: ${(props) => props.listLength * ITEM_WIDTH}px;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  font-size: 3rem;
+  font-weight: 600;
+
+  & li {
+    width: 200px;
+    cursor: pointer;
+    color: gray;
+    text-align: center;
+
+    &.active {
+      color: black;
+    }
+  }
 `
 
 export default function Swiper({
   width,
-  children,
+  focused,
   onClickItem,
+  list,
 }: {
   width: string
-  children: React.ReactNode
-  onClickItem: MouseEventHandler
+  focused: number
+  onClickItem: (index: number) => void
+  list: string[]
 }) {
   const swiperRef = useRef<HTMLDivElement>(null)
+  const borderRef = useRef<HTMLDivElement>(null)
   const [isMouseDown, setIsMouseDown] = useState(false) // 의미없는 mouse move 이벤트 처리 방지
   const [isDrag, setIsDrag] = useState(false)
-  const [coordsMouseDown, setCoordsMouseDown] = useState({ x: 0 })
+  const [mouseDownX, setMouseDownX] = useState(0)
 
   const onMouseDown = (event: MouseEvent) => {
     setIsMouseDown(true)
     const x = event.pageX
     if (!x) return
-    setCoordsMouseDown({
-      x,
-    })
+    setMouseDownX(x)
   }
 
   const onMouseUp = (event: MouseEvent) => {
@@ -36,12 +60,21 @@ export default function Swiper({
     } else {
       const clickedElement = event.target as Element
       if (clickedElement.tagName !== 'LI') return
+
+      const { index } = (event.target as HTMLElement).dataset
       clickedElement.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',
       })
-      onClickItem(event)
+      onClickItem(Number(index))
+
+      if (!borderRef.current) return
+
+      borderRef.current.style.transition = '0.5s'
+      borderRef.current.style.left = `${
+        (event.target as HTMLElement).offsetLeft
+      }px`
     }
     setIsMouseDown(false)
   }
@@ -51,7 +84,7 @@ export default function Swiper({
     setIsDrag(true)
 
     const x = event.pageX
-    const diffX = coordsMouseDown.x - x
+    const diffX = mouseDownX - x
 
     if (!swiperRef.current) return
     ;(swiperRef.current as Element).scrollLeft += diffX / 13
@@ -64,6 +97,11 @@ export default function Swiper({
     setIsMouseDown(false)
   }
 
+  useEffect(() => {
+    // bar 이동
+    // 아이템 focus
+  }, [focused])
+
   return (
     <StyledSwiper
       ref={swiperRef}
@@ -74,7 +112,26 @@ export default function Swiper({
       onMouseMove={(event) => onMouseMove(event)}
       onMouseLeave={(event) => onMouseLeave(event)}
     >
-      {children}
+      <StyledList listLength={list.length}>
+        {list.map((name, index) => (
+          <li
+            key={index}
+            data-index={index}
+            className={focused === index ? 'active' : ''}
+          >
+            {name}
+          </li>
+        ))}
+      </StyledList>
+      <StyledBorder ref={borderRef} />
     </StyledSwiper>
   )
 }
+
+const StyledBorder = styled.div`
+  width: ${ITEM_WIDTH}px;
+  height: 3px;
+  background-color: black;
+  transition: 0.5s;
+  position: absolute;
+`

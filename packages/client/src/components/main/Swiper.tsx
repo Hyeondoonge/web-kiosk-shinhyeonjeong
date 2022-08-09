@@ -3,33 +3,6 @@ import styled from 'styled-components'
 
 const ITEM_WIDTH = 200
 
-const StyledSwiper = styled.div<{ width: string }>`
-  width: ${(props) => props.width};
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-`
-
-const StyledList = styled.ul<{ listLength: number }>`
-  width: ${(props) => props.listLength * ITEM_WIDTH}px;
-  padding: 0;
-  display: flex;
-  list-style: none;
-  font-size: 3rem;
-  font-weight: 600;
-
-  & li {
-    width: 200px;
-    cursor: pointer;
-    color: gray;
-    text-align: center;
-
-    &.active {
-      color: black;
-    }
-  }
-`
-
 export default function Swiper({
   width,
   focused,
@@ -97,11 +70,6 @@ export default function Swiper({
     setIsMouseDown(false)
   }
 
-  useEffect(() => {
-    // bar 이동
-    // 아이템 focus
-  }, [focused])
-
   return (
     <StyledSwiper
       ref={swiperRef}
@@ -128,9 +96,37 @@ export default function Swiper({
   )
 }
 
+const StyledSwiper = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+`
+
+const StyledList = styled.ul<{ listLength: number }>`
+  width: ${(props) =>
+    props.listLength * ITEM_WIDTH + (30 * props.listLength - 1)}px;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  font-size: 3rem;
+  font-weight: 600;
+  gap: 30px;
+
+  & li {
+    width: ${ITEM_WIDTH}px;
+    cursor: pointer;
+    color: gray;
+    text-align: center;
+
+    &.active {
+      color: black;
+    }
+  }
+`
 const StyledBorder = styled.div`
   width: ${ITEM_WIDTH}px;
-  height: 3px;
+  height: 5px;
   background-color: black;
   transition: 0.5s;
   position: absolute;

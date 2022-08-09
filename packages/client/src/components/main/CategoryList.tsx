@@ -1,6 +1,6 @@
 import { CategoryType } from '../../type'
 import styled from 'styled-components/macro'
-import Swiper from './Swiper'
+import Slider from './Slider'
 
 interface CategoryListProps {
   categoryList: CategoryType[]
@@ -63,7 +63,7 @@ export function CategoryList({
   const list = categoryList.map(({ name }) => name)
 
   return (
-    <Swiper
+    <Slider
       width={'100%'}
       focused={selectedCategoryIndex !== -1 ? selectedCategoryIndex : 0}
       list={list}
@@ -73,10 +73,3 @@ export function CategoryList({
     />
   )
 }
-
-const StyledCategoryList = styled.ul`
-  width: 150%;
-  display: flex;
-  gap: 100px;
-  overflow-x: hidden;
-`

@@ -54,7 +54,7 @@ export default function Slider({
 
   const onMouseMove = (event: MouseEvent) => {
     if (!isMouseDown) return
-    setIsDrag(true)
+    if (!isDrag) setIsDrag(true)
 
     const x = event.pageX
     const diffX = mouseDownX - x

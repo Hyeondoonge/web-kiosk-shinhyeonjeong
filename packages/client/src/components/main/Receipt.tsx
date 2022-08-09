@@ -1,11 +1,17 @@
+import { useEffect, useState } from 'react'
 import { OrderType, SelectedMenuType } from 'type'
 
 interface ReceiptProps {
   order: OrderType
+  deleteAllCartMenu: () => void
 }
 
 interface OrderedMenuListProps {
   selectedMenuList: SelectedMenuType[]
+}
+
+interface TimerProps {
+  deleteAllCartMenu: () => void
 }
 
 function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
@@ -38,19 +44,44 @@ function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
   )
 }
 
-function Timer() {
-  const LEFT_TIME = 6
+function Timer({ deleteAllCartMenu }: TimerProps) {
+  const INITIAL_LEFT_TIME = 10
+  const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
 
-  return <div>남은시간 {LEFT_TIME}초</div>
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLeftTime((leftTIme) => leftTIme - 1)
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (leftTime === 0) {
+      deleteAllCartMenu()
+      console.log('close receipt')
+    }
+  }, [leftTime])
+
+  return (
+    <div>
+      남은시간 {leftTime}초
+      <div>주의: 이 화면은 10초 뒤에 자동으로 사라집니다.</div>
+    </div>
+  )
 }
 
-export function Receipt({
+export default function Receipt({
   order: { id, orderNumber, selectedMenuList, paymentMethod, paymentAmount },
+  deleteAllCartMenu,
 }: ReceiptProps) {
   const ORDER_AMOUNT = 50000
 
   return (
     <div>
+      <button onClick={deleteAllCartMenu}>영수증 닫기</button>
       <div>주문 번호 {orderNumber}</div>
       <OrderedMenuList selectedMenuList={selectedMenuList} />
       <div>
@@ -59,7 +90,7 @@ export function Receipt({
         <div>잔돈 {ORDER_AMOUNT - paymentAmount}</div>
         <div>결제방법 {paymentMethod}</div>
       </div>
-      <Timer />
+      <Timer deleteAllCartMenu={deleteAllCartMenu} />
     </div>
   )
 }

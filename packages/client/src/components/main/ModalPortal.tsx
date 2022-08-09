@@ -1,15 +1,15 @@
-import { RefObject, useRef } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
 
 interface ModalProps {
   children: React.ReactNode
-  modalRef: RefObject<HTMLDivElement>
   onClick: () => void
 }
 
 const StyledModal = styled.div`
   width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   position: absolute;
@@ -25,12 +25,8 @@ const ChildrenWrapper = styled.div`
   background-color: #f8f8f8;
 `
 
-function Modal({ children, modalRef, onClick }: ModalProps) {
-  return (
-    <StyledModal ref={modalRef} onClick={onClick}>
-      {children}
-    </StyledModal>
-  )
+function Modal({ children, onClick }: ModalProps) {
+  return <StyledModal onClick={onClick}>{children}</StyledModal>
 }
 
 export default function ModalPortal({
@@ -40,10 +36,12 @@ export default function ModalPortal({
   children: React.ReactNode
   closeModal: () => void
 }) {
-  const modalRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+  }, [])
 
   return createPortal(
-    <Modal modalRef={modalRef} onClick={closeModal}>
+    <Modal onClick={closeModal}>
       <ChildrenWrapper onClick={(event) => event.stopPropagation()}>
         {children}
       </ChildrenWrapper>

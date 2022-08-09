@@ -1,22 +1,27 @@
-import React, { MouseEvent, useRef, useState } from 'react'
+import React, { MouseEvent, MouseEventHandler, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-const StyledSwiper = styled.div`
-  display: flex;
-  width: 500px;
-  height: 200;
-  gap: 50px;
-  overflow: auto;
+const StyledSwiper = styled.div<{ width: string }>`
+  width: ${(props) => props.width}px;
   overflow-x: hidden;
+  overflow: auto;
 `
 
-export default function Swiper({ children }: { children: React.ReactNode }) {
-  const swiperRef = useRef(null)
+export default function Swiper({
+  width,
+  children,
+  onClickItem,
+}: {
+  width: string
+  children: React.ReactNode
+  onClickItem: MouseEventHandler
+}) {
+  const swiperRef = useRef<HTMLDivElement>(null)
   const [isMouseDown, setIsMouseDown] = useState(false) // 의미없는 mouse move 이벤트 처리 방지
   const [isDrag, setIsDrag] = useState(false)
   const [coordsMouseDown, setCoordsMouseDown] = useState({ x: 0 })
 
-  const onMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseDown = (event: MouseEvent) => {
     setIsMouseDown(true)
     const x = event.pageX
     if (!x) return
@@ -25,50 +30,31 @@ export default function Swiper({ children }: { children: React.ReactNode }) {
     })
   }
 
-  const onTouchDown = (event: React.TouchEvent<HTMLDivElement>) => {
-    setIsMouseDown(true)
-    const x = event.changedTouches[0].pageX
-    if (!x) return
-    setCoordsMouseDown({
-      x,
-    })
-  }
-
-  const onMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseUp = (event: MouseEvent) => {
     if (isDrag) {
-      console.log('drag')
       setIsDrag(false)
     } else {
-      ;(event.target as Element).scrollIntoView({
+      const clickedElement = event.target as Element
+      if (clickedElement.tagName !== 'LI') return
+      clickedElement.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',
       })
-      // change Selected Item
-      console.log('click')
+      onClickItem(event)
     }
     setIsMouseDown(false)
   }
 
-  const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseMove = (event: MouseEvent) => {
     if (!isMouseDown) return
     setIsDrag(true)
 
-    let x, y
-    if (event.pageX) {
-      x = event.pageX
-    } else {
-      x = event.changedTouches[0].pageX
-    }
-
+    const x = event.pageX
     const diffX = coordsMouseDown.x - x
-    // const diffY = coordsMouseDown.y - event.pageY;
 
     if (!swiperRef.current) return
-    console.log(diffX, swiperRef.current.scrollLeft)
-    swiperRef.current.scrollLeft = swiperRef.current.scrollLeft + diffX / 10
-
-    console.log(swiperRef.current.scrollLeft)
+    ;(swiperRef.current as Element).scrollLeft += diffX / 13
   }
 
   const onMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -82,13 +68,11 @@ export default function Swiper({ children }: { children: React.ReactNode }) {
     <StyledSwiper
       ref={swiperRef}
       className="swiper"
+      width={width}
       onMouseDown={(event) => onMouseDown(event)}
       onMouseUp={(event) => onMouseUp(event)}
       onMouseMove={(event) => onMouseMove(event)}
       onMouseLeave={(event) => onMouseLeave(event)}
-      onTouchStart={(event) => onTouchDown(event)}
-      onTouchEnd={(event) => onMouseUp(event)}
-      onTouchMove={(event) => onMouseMove(event)}
     >
       {children}
     </StyledSwiper>

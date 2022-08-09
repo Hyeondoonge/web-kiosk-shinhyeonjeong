@@ -12,7 +12,7 @@ const StyledModal = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 1000;
   background-color: rgba(15, 14, 14, 0.5);
@@ -38,6 +38,10 @@ export default function ModalPortal({
 }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
   }, [])
 
   return createPortal(

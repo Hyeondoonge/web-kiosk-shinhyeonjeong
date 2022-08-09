@@ -3,6 +3,7 @@ import Cart from 'components/main/Cart'
 import CategoryList from 'components/main/CategoryList'
 import MenuList from 'components/main/MenuList'
 import MenuOptionSelector from 'components/main/MenuOptionSelector'
+import ModalPortal from 'components/main/ModalPortal'
 import Receipt from 'components/main/Receipt'
 import { getCartTotalAmount } from 'components/util'
 import React, { useEffect, useState } from 'react'
@@ -17,6 +18,7 @@ function App() {
   const [cartMenuList, setCartMenuList] = useState<CartMenuType[]>([])
   useEffect(() => {
     setCategoryList(mock)
+    setSelectedCategoryId(mock[0].id)
   }, [])
 
   const updateSelectedCategoryId = (newSelectedCategoryId: number) => {
@@ -43,30 +45,47 @@ function App() {
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
   return (
     <div className="App">
-      <CategoryList
+      {/* <CategoryList
         categoryList={categoryList}
         selectedCategoryId={selectedCategoryId}
         setSelectedCategoryId={setSelectedCategoryId}
       />
-      <MenuList menuList={menuList} />
-      <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
       <Cart
         cartMenuList={cartMenuList}
         updateCartMenuList={(newCartMenuList) => {
           setCartMenuList(newCartMenuList)
         }}
         deleteAllCartMenu={deleteAllCartMenu}
+      /> */}
+      <MenuList
+        menuList={menuList}
+        onClick={() => {
+          setIsModalOpen(true)
+        }}
       />
-      <MenuOptionSelector
-        menu={mock[0].menuList[0]}
-        optionList={mockOptionList}
-        updateSelectedMenuList={updateSelectedMenuList}
-      />
-      <div>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
-      <Receipt order={order} deleteAllCartMenu={deleteAllCartMenu} />
-      <CachePayment orderAmount={getCartTotalAmount(cartMenuList)} />
+      {isModalOpen && (
+        <ModalPortal closeModal={closeModal}>
+          <button onClick={closeModal}>닫기</button>
+          <MenuOptionSelector
+            menu={mock[0].menuList[0]}
+            optionList={mockOptionList}
+            updateSelectedMenuList={updateSelectedMenuList}
+            setIsModalOpen={setIsModalOpen}
+          />
+        </ModalPortal>
+      )}
+      {/* <Receipt order={order} deleteAllCartMenu={deleteAllCartMenu} /> */}
+      {/* <Modal>
+        <CachePayment orderAmount={getCartTotalAmount(cartMenuList)} />
+      </Modal> */}
     </div>
   )
 }

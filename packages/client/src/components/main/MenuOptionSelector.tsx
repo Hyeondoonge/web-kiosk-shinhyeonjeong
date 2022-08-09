@@ -23,6 +23,7 @@ interface MenuOptionSelectorProps {
   menu: MenuType
   optionList: OptionWithDetailType[]
   updateSelectedMenuList: (selectedMenu: SelectedMenuType) => void
+  setIsModalOpen: (isModalOpen: boolean) => void
 }
 
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
@@ -50,6 +51,7 @@ export default function MenuOptionSelector({
   menu,
   optionList,
   updateSelectedMenuList,
+  setIsModalOpen,
 }: MenuOptionSelectorProps) {
   const INITIAL_SELECTED_OPTIONLIST = optionList.map(
     ({ id, name, optionDetailList }) => ({
@@ -84,8 +86,8 @@ export default function MenuOptionSelector({
       amount,
     }
 
-    console.log(selectedMenu.selectedOptionList)
     // 장바구니 업데이트
+    setIsModalOpen(false)
     updateSelectedMenuList(selectedMenu)
   }
 

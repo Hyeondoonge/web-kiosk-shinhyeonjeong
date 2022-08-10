@@ -28,7 +28,7 @@ type ModalOpenState = {
 }
 
 export const ModalContext = createContext<
-  [ModalOpenState, (modalOpenState: ModalOpenState) => void] | []
+  [ModalOpenState, React.Dispatch<React.SetStateAction<ModalOpenState>>] | []
 >([])
 
 function App() {
@@ -67,17 +67,13 @@ function App() {
     receipt: false,
   })
 
-  const updateIsModalOpen = (newIsModalOpen: ModalOpenState) => {
-    setIsModalOpen(newIsModalOpen)
-  }
-
   const menuList =
     categoryList.filter(({ id }) => id === selectedCategoryId)[0]?.menuList ??
     []
 
   // 모달 상태 관리
   return (
-    <ModalContext.Provider value={[isModalOpen, updateIsModalOpen]}>
+    <ModalContext.Provider value={[isModalOpen, setIsModalOpen]}>
       <div className="App">
         {/* <CategoryList
           categoryList={categoryList}

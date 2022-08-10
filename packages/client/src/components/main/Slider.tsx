@@ -4,12 +4,10 @@ import styled from 'styled-components'
 const ITEM_WIDTH = 200
 
 export default function Slider({
-  width,
   focused,
   onClickItem,
   list,
 }: {
-  width: string
   focused: number
   onClickItem: (index: number) => void
   list: string[]
@@ -44,7 +42,6 @@ export default function Slider({
 
       if (!borderRef.current) return
 
-      borderRef.current.style.transition = '0.5s'
       borderRef.current.style.left = `${
         (event.target as HTMLElement).offsetLeft
       }px`
@@ -74,7 +71,6 @@ export default function Slider({
     <StyledSlider
       ref={sliderRef}
       className="slider"
-      width={width}
       onMouseDown={(event) => onMouseDown(event)}
       onMouseUp={(event) => onMouseUp(event)}
       onMouseMove={(event) => onMouseMove(event)}
@@ -96,8 +92,8 @@ export default function Slider({
   )
 }
 
-const StyledSlider = styled.div<{ width: string }>`
-  width: ${(props) => props.width};
+const StyledSlider = styled.div`
+  width: 100%;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -130,4 +126,5 @@ const StyledBorder = styled.div`
   background-color: black;
   transition: 0.5s;
   position: absolute;
+  left: 0;
 `

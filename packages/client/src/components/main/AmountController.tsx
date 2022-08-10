@@ -25,7 +25,9 @@ export default function AmountController({
       <button onClick={decreaseAmount}>
         <IoRemoveCircleOutline />
       </button>
-      <input type="text" value={amount} />개
+      <div>
+        <input type="text" value={amount} />개
+      </div>
       <button onClick={increaseAmount}>
         <IoAddCircleOutline />
       </button>
@@ -35,14 +37,14 @@ export default function AmountController({
 
 const StyledAmountController = styled.div`
   display: flex;
-  align-items: center;
-  width: 130px;
-  padding: 5px 10px;
+  justify-content: space-between;
+  width: 180px;
+
   font-size: ${theme.font.sm};
 
   input {
     padding: 0;
-    width: 20%;
+    width: 30px;
     font-size: ${theme.font.sm};
   }
 
@@ -51,6 +53,7 @@ const StyledAmountController = styled.div`
     align-items: center;
     padding: 0;
     font-size: ${theme.font.sm};
+    border-radius: 50%;
 
     &:hover {
       background-color: ${theme.palette.hoverBackground};

@@ -1,3 +1,5 @@
+import RadioButton from 'components/common/RadioButton'
+import styled from 'styled-components'
 import { OptionType, OptionWithDetailType, SelectedOptionType } from 'type'
 
 interface MenuOptionListProps {
@@ -16,8 +18,8 @@ function MenuOption({
   updateSelectedOption: (selectedOption: SelectedOptionType) => void
 }) {
   return (
-    <li>
-      {optionName}
+    <StyledMenuOption>
+      <div className="optionName">{optionName}</div>
       <ul>
         {optionDetailList.map(
           ({ id: optionDetailId, name: optionDetailName, price }, index) => {
@@ -27,8 +29,10 @@ function MenuOption({
 
             return (
               <li key={optionDetailId}>
-                <input
-                  type="radio"
+                <RadioButton
+                  label={`${optionDetailName} ${
+                    price !== 0 ? `(+${price}원)` : ''
+                  }`}
                   value={optionDetailId}
                   name={optionName}
                   checked={isChecked}
@@ -44,18 +48,12 @@ function MenuOption({
                     })
                   }}
                 />
-                <label htmlFor={String(optionDetailId)}>
-                  <>
-                    {optionDetailName}
-                    {price !== 0 && `(+${price})`}
-                  </>
-                </label>
               </li>
             )
           }
         )}
       </ul>
-    </li>
+    </StyledMenuOption>
   )
 }
 
@@ -65,7 +63,7 @@ export default function MenuOptionList({
   selectedOptionList,
 }: MenuOptionListProps) {
   return (
-    <ul>
+    <StyledMenuOptionList>
       {optionList.map((option) => (
         <MenuOption
           key={option.id}
@@ -74,6 +72,26 @@ export default function MenuOptionList({
           updateSelectedOption={updateSelectedOption}
         />
       ))}
-    </ul>
+    </StyledMenuOptionList>
   )
 }
+
+const StyledMenuOption = styled.li`
+  .optionName {
+    font-weight: 600;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & ul li {
+    margin: 10px 0;
+  }
+`
+
+const StyledMenuOptionList = styled.li`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`

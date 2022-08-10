@@ -1,4 +1,6 @@
+import Button from 'components/common/Button'
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import {
   MenuType,
   OptionType,
@@ -37,7 +39,7 @@ function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
 }
 
 function AddButton({ onClick, price }: AddButtonProps) {
-  return <button onClick={onClick}>{price.toLocaleString()}원 담기</button>
+  return <Button onClick={onClick}>{price.toLocaleString()}원 담기</Button>
 }
 export function MenuAmount(props: MenuAmountProps) {
   return (
@@ -104,7 +106,7 @@ export default function MenuOptionSelector({
   }
 
   return (
-    <div>
+    <StyledMenuOptionSelector>
       <Menu menu={menu} />
       <MenuOptionList
         optionList={optionList}
@@ -116,6 +118,8 @@ export default function MenuOptionSelector({
         onClick={onClickAddButton}
         price={totalPrice({ ...menu, selectedOptionList, amount })}
       />
-    </div>
+    </StyledMenuOptionSelector>
   )
 }
+
+const StyledMenuOptionSelector = styled.div``

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import { reset } from 'styled-reset'
-import { media } from '../style/theme'
+import { media, palette } from '../style/theme'
 
 const GlobalStyle = createGlobalStyle`
   @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
@@ -11,9 +11,13 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-
   body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
     line-height: 1.5;
+    background-color: black;
 
     ${media.PC} {
       font-size: 15px;

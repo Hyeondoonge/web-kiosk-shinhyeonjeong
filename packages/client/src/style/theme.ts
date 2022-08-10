@@ -24,3 +24,11 @@ export const palette = {
   titleActive: '#1E2222',
   titleInActive: '#8D9393',
 }
+
+const theme = {
+  font,
+  palette,
+  media,
+}
+
+export default theme

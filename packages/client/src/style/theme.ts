@@ -18,11 +18,12 @@ export const palette = {
   secondary: '#8D9393',
   offWhite: '#FCFCFC',
   background: '#F5F5F5',
-  warning: '#F45452',
+  warning: '#DE685C',
   line: '#CCD3D3',
   placeHolder: '#C1C5C5',
   titleActive: '#1E2222',
   titleInActive: '#8D9393',
+  hoverBackground: '#E4E4E4',
 }
 
 const theme = {

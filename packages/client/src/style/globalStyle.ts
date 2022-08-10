@@ -33,6 +33,22 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ${reset}
+
+  button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
 `
 
 export default GlobalStyle

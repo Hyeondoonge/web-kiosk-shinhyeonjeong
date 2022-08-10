@@ -12,6 +12,7 @@ const StyledModal = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -19,9 +20,8 @@ const StyledModal = styled.div`
 `
 
 const ChildrenWrapper = styled.div`
-  border: 1px solid black;
   width: fit-content;
-  padding: 30px 50px;
+  padding: 50px 50px;
   background-color: #f8f8f8;
 `
 

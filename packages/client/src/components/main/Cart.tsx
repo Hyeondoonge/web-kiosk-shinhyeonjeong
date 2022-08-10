@@ -132,6 +132,12 @@ export default function Cart({
     })
   }
 
+  const amountText = () => {
+    const amount = getCartTotalAmount(cartMenuList)
+
+    return amount === 0 ? '' : `${amount.toLocaleString()}원`
+  }
+
   return (
     <StyledCart>
       <CartMenuList
@@ -146,9 +152,7 @@ export default function Cart({
         <Button onClick={onClickAllCancel} background={theme.palette.warning}>
           전체취소
         </Button>
-        <Button onClick={onClickPayButton}>
-          {getCartTotalAmount(cartMenuList).toLocaleString()}원 결제하기
-        </Button>
+        <Button onClick={onClickPayButton}>{amountText()}결제하기</Button>
       </div>
     </StyledCart>
   )

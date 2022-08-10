@@ -11,6 +11,7 @@ interface CategoryListProps {
 interface CategoryListItemProps {
   category: CategoryType
   isSelected: boolean
+  onClick: React.MouseEventHandler<HTMLLIElement>
 }
 
 // function CategoryListItem({
@@ -52,7 +53,7 @@ interface CategoryListItemProps {
 //   )
 // }
 
-export function CategoryList({
+export default function CategoryList({
   categoryList,
   selectedCategoryId,
   setSelectedCategoryId,

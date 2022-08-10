@@ -37,6 +37,10 @@ export interface SelectedMenuType extends MenuType {
   amount: number
 }
 
+export interface CartMenuType extends SelectedMenuType {
+  cartId: number
+}
+
 export interface OrderType {
   id: number
   orderNumber: number

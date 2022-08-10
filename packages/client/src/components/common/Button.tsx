@@ -25,4 +25,9 @@ const StyledButton = styled.button<{ background?: string }>`
 
   margin: 10px 0;
   border-radius: 4px;
+  transition: 0.5s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { ModalContext } from 'App'
+import { useContext, useEffect, useState } from 'react'
 import { OrderType, SelectedMenuType } from 'type'
 
 interface ReceiptProps {
@@ -45,13 +46,15 @@ function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
 }
 
 function Timer({ deleteAllCartMenu }: TimerProps) {
+  const [isModalOpen, setIsModalOpen] = useContext(ModalContext)
+
   const INITIAL_LEFT_TIME = 10
   const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setLeftTime((leftTIme) => leftTIme - 1)
-    }, 1000)
+    }, 300)
 
     return () => {
       clearInterval(interval)
@@ -60,8 +63,9 @@ function Timer({ deleteAllCartMenu }: TimerProps) {
 
   useEffect(() => {
     if (leftTime === 0) {
+      if (!isModalOpen || !setIsModalOpen) return
+      setIsModalOpen({ ...isModalOpen, receipt: false })
       deleteAllCartMenu()
-      console.log('close receipt')
     }
   }, [leftTime])
 
@@ -81,7 +85,6 @@ export default function Receipt({
 
   return (
     <div>
-      <button onClick={deleteAllCartMenu}>영수증 닫기</button>
       <div>주문 번호 {orderNumber}</div>
       <OrderedMenuList selectedMenuList={selectedMenuList} />
       <div>

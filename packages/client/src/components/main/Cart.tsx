@@ -1,5 +1,6 @@
+import { ModalContext } from 'App'
 import { getCartTotalAmount } from 'components/util'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { CartMenuType, SelectedMenuType } from 'type'
 import AmountController from './AmountController'
 
@@ -116,12 +117,17 @@ export default function Cart({
   updateCartMenuList,
   deleteAllCartMenu,
 }: CartProps) {
+  const [isModalOpen, setIsModalOpen] = useContext(ModalContext)
   const onClickAllCancel = () => {
     deleteAllCartMenu()
   }
-
   const onClickPayButton = () => {
-    console.log('open modal')
+    if (!setIsModalOpen || !isModalOpen) return
+
+    setIsModalOpen({
+      ...isModalOpen,
+      paymentMethod: true,
+    })
   }
 
   return (

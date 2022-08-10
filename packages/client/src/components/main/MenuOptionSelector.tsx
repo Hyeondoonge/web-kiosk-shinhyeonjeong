@@ -22,7 +22,7 @@ interface AddButtonProps {
 interface MenuOptionSelectorProps {
   menu: MenuType
   optionList: OptionWithDetailType[]
-  updateSelectedMenuList: (selectedMenu: SelectedMenuType) => void
+  updateCartMenuList: (selectedMenu: SelectedMenuType) => void
   setIsModalOpen: (isModalOpen: boolean) => void
 }
 
@@ -50,7 +50,7 @@ export function MenuAmount(props: MenuAmountProps) {
 export default function MenuOptionSelector({
   menu,
   optionList,
-  updateSelectedMenuList,
+  updateCartMenuList,
   setIsModalOpen,
 }: MenuOptionSelectorProps) {
   const INITIAL_SELECTED_OPTIONLIST = optionList.map(
@@ -85,10 +85,9 @@ export default function MenuOptionSelector({
       })),
       amount,
     }
-
     // 장바구니 업데이트
     setIsModalOpen(false)
-    updateSelectedMenuList(selectedMenu)
+    updateCartMenuList(selectedMenu)
   }
 
   const totalPrice = (selectedMenuWithOption: SelectedMenuType) => {

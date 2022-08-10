@@ -3,22 +3,25 @@ import Cart from 'components/main/Cart'
 import CategoryList from 'components/main/CategoryList'
 import LoadingIndicator from 'components/main/LoadingIndicator'
 import MenuList from 'components/main/MenuList'
-import MenuOptionSelector from 'components/main/MenuOptionSelector'
 import ModalPortal from 'components/main/ModalPortal'
 import PaymentMethodSelector from 'components/main/PaymentMethodSelector'
 import Receipt from 'components/main/Receipt'
 import { getCartTotalAmount } from 'components/util'
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  Dispatch,
-} from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { palette } from 'style/theme'
+import styled from 'styled-components'
 import { CartMenuType, CategoryType, MenuType, SelectedMenuType } from 'type'
 import mock from './mock/mockCategoryList.json'
 import mockOptionList from './mock/mockOptionList.json'
 import order from './mock/mockOrderedMenuList.json'
+
+const StyledApp = styled.div`
+  max-width: 960px;
+  height: 100vh;
+  background-color: ${palette.offWhite};
+  display: grid;
+  grid-template-rows: 9% 65% 25%;
+`
 
 type ModalOpenState = {
   paymentMethod: boolean
@@ -74,12 +77,12 @@ function App() {
   // 모달 상태 관리
   return (
     <ModalContext.Provider value={[isModalOpen, setIsModalOpen]}>
-      <div className="App">
-        {/* <CategoryList
+      <StyledApp>
+        <CategoryList
           categoryList={categoryList}
           selectedCategoryId={selectedCategoryId}
           setSelectedCategoryId={setSelectedCategoryId}
-        /> */}
+        />
         <MenuList
           menuList={menuList}
           updateCartMenuList={(selectedMenu: SelectedMenuType) => {
@@ -164,7 +167,7 @@ function App() {
             <Receipt order={order} deleteAllCartMenu={deleteAllCartMenu} />
           </ModalPortal>
         )}
-      </div>
+      </StyledApp>
     </ModalContext.Provider>
   )
 }

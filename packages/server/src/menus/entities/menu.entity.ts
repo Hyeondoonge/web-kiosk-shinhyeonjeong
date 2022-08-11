@@ -1,5 +1,5 @@
-import { Category } from 'src/categories/entities/category.entity'
-import { Option } from 'src/options/entities/option.entity'
+import { Category } from '../../categories/entities/category.entity'
+import { Option } from '../../options/entities/option.entity'
 import {
   BaseEntity,
   Column,
@@ -20,7 +20,7 @@ export class Menu extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 20 })
   name: string
 
   @Column({ type: 'text' })

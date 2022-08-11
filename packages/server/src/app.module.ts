@@ -6,6 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { MySqlConfigModule } from './config/database/config.module'
 import { MySqlConfigService } from './config/database/config.service'
 import { OptionsModule } from './options/options.module'
+import { CategoriesModule } from './categories/categories.module'
+import { MenusModule } from './menus/menus.module'
+import { OrdersModule } from './orders/orders.module'
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { OptionsModule } from './options/options.module'
       inject: [MySqlConfigService],
     }),
     OptionsModule,
+    CategoriesModule,
+    MenusModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

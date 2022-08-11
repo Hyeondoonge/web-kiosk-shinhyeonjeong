@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MySqlConfigModule } from './config/database/config.module'
 import { MySqlConfigService } from './config/database/config.service'
+import { OptionsModule } from './options/options.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MySqlConfigService } from './config/database/config.service'
       useClass: MySqlConfigService,
       inject: [MySqlConfigService],
     }),
+    OptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

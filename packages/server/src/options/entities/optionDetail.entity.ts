@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -18,6 +19,7 @@ export class OptionDetail extends BaseEntity {
   @Column()
   price: number
 
-  @ManyToOne(() => Option, (option) => option.details)
+  @ManyToOne(() => Option, (option) => option.detailList)
+  @JoinColumn({ name: 'optionId' })
   option: Option
 }

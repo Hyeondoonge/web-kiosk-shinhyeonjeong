@@ -18,5 +18,5 @@ export class Option extends BaseEntity {
   name: string
 
   @OneToMany(() => OptionDetail, (optionDetail) => optionDetail.option)
-  details: OptionDetail[]
+  detailList: OptionDetail[]
 }

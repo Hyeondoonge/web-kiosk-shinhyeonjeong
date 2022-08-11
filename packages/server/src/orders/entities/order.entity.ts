@@ -27,7 +27,7 @@ export class Order extends BaseEntity {
   @Column()
   totalPrice: number
 
-  @Column({ type: 'enum' })
+  @Column({ type: 'enum', enum: PaymentMethod })
   paymentMethod: PaymentMethod
 
   @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)

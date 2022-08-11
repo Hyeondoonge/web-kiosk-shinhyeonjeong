@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Order } from './order.entity'
-import { OrderDetailOption } from './orderDetailOption.entity'
 
 @Entity({ name: 'order_detail_table' })
 export class OrderDetail extends BaseEntity {
@@ -20,7 +19,10 @@ export class OrderDetail extends BaseEntity {
   createdAt: Date
 
   @Column()
-  orderNumber: number
+  menuName: string
+
+  @Column()
+  count: number
 
   @Column()
   totalPrice: number
@@ -28,13 +30,10 @@ export class OrderDetail extends BaseEntity {
   @Column()
   orderId: number
 
+  @Column()
+  orderDetailOptionList: string
+
   @ManyToOne(() => Order, (order) => order.orderDetailList)
   @JoinColumn({ name: 'orderId' })
   order: Order
-
-  @OneToMany(
-    () => OrderDetailOption,
-    (orderDetailOption) => orderDetailOption.orderDetail
-  )
-  orderDetailOptionList: OrderDetail[]
 }

@@ -1,8 +1,9 @@
-import { MouseEventHandler, useState } from 'react'
-import { MenuType, SelectedMenuType } from 'type'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import { MenuType, OptionWithDetailType, SelectedMenuType } from 'type'
 import MenuOptionSelector from './MenuOptionSelector'
 import ModalPortal from './ModalPortal'
 import mockOptionList from '../../mock/mockOptionList.json'
+import { getOptionList } from 'api/options'
 
 interface MenuItemProps {
   isPopular: boolean
@@ -12,7 +13,6 @@ interface MenuItemProps {
 
 function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -30,7 +30,6 @@ function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
           <button onClick={closeModal}>닫기</button>
           <MenuOptionSelector
             menu={menu}
-            optionList={mockOptionList} // menu를 전달해서 optionSelector에서 option가져오도록 수정
             setIsModalOpen={setIsModalOpen}
             updateCartMenuList={(selectedMenu: SelectedMenuType) => {
               updateCartMenuList(selectedMenu)

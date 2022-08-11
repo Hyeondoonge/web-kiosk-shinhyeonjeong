@@ -1,3 +1,4 @@
+import { getOptionList } from 'api/options'
 import { useEffect, useState } from 'react'
 import {
   MenuType,
@@ -21,7 +22,6 @@ interface AddButtonProps {
 
 interface MenuOptionSelectorProps {
   menu: MenuType
-  optionList: OptionWithDetailType[]
   updateCartMenuList: (selectedMenu: SelectedMenuType) => void
   setIsModalOpen: (isModalOpen: boolean) => void
 }
@@ -49,22 +49,13 @@ export function MenuAmount(props: MenuAmountProps) {
 
 export default function MenuOptionSelector({
   menu,
-  optionList,
   updateCartMenuList,
   setIsModalOpen,
 }: MenuOptionSelectorProps) {
-  const INITIAL_SELECTED_OPTIONLIST = optionList.map(
-    ({ id, name, optionDetailList }) => ({
-      id,
-      name,
-      optionDetail: optionDetailList[0],
-    })
-  )
-
+  const [optionList, setOptionList] = useState<OptionWithDetailType[]>([])
   const [selectedOptionList, setSelectedOptionList] = useState<
     SelectedOptionType[]
-  >(INITIAL_SELECTED_OPTIONLIST)
-
+  >([])
   const [amount, setAmount] = useState(1)
 
   const updateSelectedOption = (newSelectedOption: SelectedOptionType) => {
@@ -102,6 +93,29 @@ export default function MenuOptionSelector({
 
     return sum * amount
   }
+
+  const initOptionList = async () => {
+    const response = await getOptionList(menu.id)
+
+    if (response instanceof Error) {
+      return
+    }
+    const optionList = response
+    setOptionList(optionList)
+
+    const INITIAL_SELECTED_OPTIONLIST = optionList.map(
+      ({ id, name, optionDetailList }) => ({
+        id,
+        name,
+        optionDetail: optionDetailList[0],
+      })
+    )
+    setSelectedOptionList(INITIAL_SELECTED_OPTIONLIST)
+  }
+
+  useEffect(() => {
+    initOptionList()
+  }, [])
 
   return (
     <div>

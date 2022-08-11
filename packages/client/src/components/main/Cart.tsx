@@ -112,6 +112,14 @@ function Button({ onClick, value }: ButtonProps) {
   return <button onClick={onClick}>{value}</button>
 }
 
+// cartMenuList={cartMenuList}
+// updateCartMenuList={(newCartMenuList) => {
+//   setCartMenuList(newCartMenuList)
+// }}
+// deleteAllCartMenu={deleteAllCartMenu}
+// updateCartMenuList={(newCartMenuList) => {
+//   setCartMenuList(newCartMenuList)
+// }}
 export default function Cart({
   cartMenuList,
   updateCartMenuList,

@@ -1,6 +1,6 @@
 import { ModalContext } from 'App'
 import { useContext, useEffect, useState } from 'react'
-import { OrderType, SelectedMenuType } from 'type'
+import { OrderMenuType, OrderType } from 'type'
 
 interface ReceiptProps {
   order: OrderType
@@ -8,39 +8,37 @@ interface ReceiptProps {
 }
 
 interface OrderedMenuListProps {
-  selectedMenuList: SelectedMenuType[]
+  orderMenuList: OrderMenuType[]
 }
 
 interface TimerProps {
   deleteAllCartMenu: () => void
 }
 
-function OrderedMenuList({ selectedMenuList }: OrderedMenuListProps) {
+function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
   const ORDERED_MENU_TOTAL_PRICE = 15000
 
   return (
     <ul>
-      {selectedMenuList.map(
-        ({ id, name, amount, price, selectedOptionList }) => (
-          <li key={id}>
-            <div>
-              {name} {amount}개
-            </div>
-            <ul>
-              {selectedOptionList.map(({ id: optionId, optionDetail }) => {
-                const { id: optionDetailId, name, price } = optionDetail
+      {orderMenuList.map(({ id, name, amount, price, selectedOptionList }) => (
+        <li key={id}>
+          <div>
+            {name} {amount}개
+          </div>
+          <ul>
+            {selectedOptionList.map((optionDetail, index) => {
+              const { name, price } = optionDetail
 
-                return (
-                  <li key={`${optionId}_${optionDetailId}`}>
-                    {name} ({optionDetail.price.toLocaleString()}원)
-                  </li>
-                )
-              })}
-            </ul>
-            {ORDERED_MENU_TOTAL_PRICE.toLocaleString()}원
-          </li>
-        )
-      )}
+              return (
+                <li key={`${index}`}>
+                  {name} ({price.toLocaleString()}원)
+                </li>
+              )
+            })}
+          </ul>
+          {ORDERED_MENU_TOTAL_PRICE.toLocaleString()}원
+        </li>
+      ))}
     </ul>
   )
 }
@@ -78,7 +76,7 @@ function Timer({ deleteAllCartMenu }: TimerProps) {
 }
 
 export default function Receipt({
-  order: { id, orderNumber, selectedMenuList, paymentMethod, paymentAmount },
+  order: { id, orderNumber, orderMenuList, paymentMethod, paymentAmount },
   deleteAllCartMenu,
 }: ReceiptProps) {
   const ORDER_AMOUNT = 50000
@@ -86,7 +84,7 @@ export default function Receipt({
   return (
     <div>
       <div>주문 번호 {orderNumber}</div>
-      <OrderedMenuList selectedMenuList={selectedMenuList} />
+      <OrderedMenuList orderMenuList={orderMenuList} />
       <div>
         <div>총 주문금액 {ORDER_AMOUNT}</div>
         <div>총 결제금액 {paymentAmount}</div>

@@ -7,7 +7,7 @@ type Request = ({
 }: {
   method: string
   requestURL: string
-  body?: string
+  body?: any
 }) => Promise<any>
 
 export const request: Request = async ({ method, requestURL, body }) => {

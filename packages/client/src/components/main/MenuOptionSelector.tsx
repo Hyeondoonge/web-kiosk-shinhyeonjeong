@@ -1,5 +1,9 @@
 import { getOptionList } from 'api/options'
+import Border from 'components/common/Border'
+import Button from 'components/common/Button'
 import { useEffect, useState } from 'react'
+import theme from 'style/theme'
+import styled from 'styled-components'
 import {
   MenuType,
   OptionType,
@@ -28,22 +32,24 @@ interface MenuOptionSelectorProps {
 
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   return (
-    <div>
-      <img src={imgUrl} alt={name} width="10%" />
+    <StyledMenu>
+      <img src={imgUrl} alt={name} />
       <div>{name}</div>
-      <div>{price}</div>
-    </div>
+      <div>{price.toLocaleString()}원</div>
+    </StyledMenu>
   )
 }
 
 function AddButton({ onClick, price }: AddButtonProps) {
-  return <button onClick={onClick}>{price.toLocaleString()}원 담기</button>
+  return <Button onClick={onClick}>{price.toLocaleString()}원 담기</Button>
 }
+
 export function MenuAmount(props: MenuAmountProps) {
   return (
-    <div>
-      수량 <AmountController {...props} />
-    </div>
+    <StyledMenuAmount>
+      <div className="optionName">수량</div>
+      <AmountController {...props} />
+    </StyledMenuAmount>
   )
 }
 
@@ -118,18 +124,48 @@ export default function MenuOptionSelector({
   }, [])
 
   return (
-    <div>
+    <StyledMenuOptionSelector>
       <Menu menu={menu} />
       <MenuOptionList
         optionList={optionList}
         selectedOptionList={selectedOptionList}
         updateSelectedOption={updateSelectedOption}
       />
+      <Border />
       <MenuAmount amount={amount} updateAmount={setAmount} />
       <AddButton
         onClick={onClickAddButton}
         price={totalPrice({ ...menu, selectedOptionList, amount })}
       />
-    </div>
+    </StyledMenuOptionSelector>
   )
 }
+
+const StyledMenuOptionSelector = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-size: ${theme.font.sm};
+`
+
+const StyledMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  img {
+    width: 70%;
+  }
+`
+
+const StyledMenuAmount = styled.div`
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .optionName {
+    font-weight: 600;
+  }
+`

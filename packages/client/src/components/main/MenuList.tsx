@@ -1,9 +1,9 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { MenuType, OptionWithDetailType, SelectedMenuType } from 'type'
 import MenuOptionSelector from './MenuOptionSelector'
+import styled from 'styled-components'
 import ModalPortal from './ModalPortal'
-import mockOptionList from '../../mock/mockOptionList.json'
-import { getOptionList } from 'api/options'
+import theme from 'style/theme'
 
 interface MenuItemProps {
   isPopular: boolean
@@ -19,11 +19,11 @@ function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
   const { id, name, price, imgUrl } = menu
 
   return (
-    <li onClick={() => setIsModalOpen(true)}>
-      <div>{isPopular ? '인기' : '인기없음'}</div>
+    <StyledMenuListItem onClick={() => setIsModalOpen(true)}>
+      {/* <div>{isPopular ? '인기' : '인기없음'}</div> */}
       <img src={imgUrl} alt={name} />
-      <div>{name}</div>
-      <div>{price}</div>
+      <div className="menuName">{name}</div>
+      <div className="menuPrice">{price.toLocaleString()}원</div>
 
       {isModalOpen && (
         <ModalPortal closeModal={closeModal}>
@@ -37,7 +37,7 @@ function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
           />
         </ModalPortal>
       )}
-    </li>
+    </StyledMenuListItem>
   )
 }
 
@@ -59,7 +59,7 @@ export default function MenuList({
   )
 
   return (
-    <ul>
+    <StyledMenuList>
       {sortedMenuList.map((menu) => (
         <MenuListItem
           key={menu.id}
@@ -68,6 +68,33 @@ export default function MenuList({
           updateCartMenuList={updateCartMenuList}
         />
       ))}
-    </ul>
+    </StyledMenuList>
   )
 }
+
+const StyledMenuList = styled.ul`
+  display: flex;
+  align-items: flex-start;
+  padding: 5px;
+  gap: 5px;
+  flex-wrap: wrap;
+  overflow: auto;
+  background-color: ${theme.palette.background};
+`
+
+const StyledMenuListItem = styled.li`
+  width: calc(100% / 3 - 4px);
+  aspect-ratio: 1 / 1;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 50px;
+  align-items: center;
+
+  img {
+    width: 100%;
+  }
+  font-size: ${theme.font.sm};
+`

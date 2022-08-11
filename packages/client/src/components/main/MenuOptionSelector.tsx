@@ -1,3 +1,4 @@
+import { getOptionList } from 'api/options'
 import Border from 'components/common/Border'
 import Button from 'components/common/Button'
 import { useEffect, useState } from 'react'
@@ -25,7 +26,6 @@ interface AddButtonProps {
 
 interface MenuOptionSelectorProps {
   menu: MenuType
-  optionList: OptionWithDetailType[]
   updateCartMenuList: (selectedMenu: SelectedMenuType) => void
   setIsModalOpen: (isModalOpen: boolean) => void
 }
@@ -33,7 +33,12 @@ interface MenuOptionSelectorProps {
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   return (
     <StyledMenu>
-      <img src={imgUrl} alt={name} />
+      <img
+        src={
+          'http://www.mmthcoffee.com/data/file/mm_new/thumb-1846184521_N10saD8o_bd211bf0397e1ddb03c53c6f64a4f823c76612ed_216x216.png'
+        }
+        alt={name}
+      />
       <div>{name}</div>
       <div>{price.toLocaleString()}원</div>
     </StyledMenu>
@@ -55,22 +60,13 @@ export function MenuAmount(props: MenuAmountProps) {
 
 export default function MenuOptionSelector({
   menu,
-  optionList,
   updateCartMenuList,
   setIsModalOpen,
 }: MenuOptionSelectorProps) {
-  const INITIAL_SELECTED_OPTIONLIST = optionList.map(
-    ({ id, name, optionDetailList }) => ({
-      id,
-      name,
-      optionDetail: optionDetailList[0],
-    })
-  )
-
+  const [optionList, setOptionList] = useState<OptionWithDetailType[]>([])
   const [selectedOptionList, setSelectedOptionList] = useState<
     SelectedOptionType[]
-  >(INITIAL_SELECTED_OPTIONLIST)
-
+  >([])
   const [amount, setAmount] = useState(1)
 
   const updateSelectedOption = (newSelectedOption: SelectedOptionType) => {
@@ -109,6 +105,29 @@ export default function MenuOptionSelector({
     return sum * amount
   }
 
+  const initOptionList = async () => {
+    const response = await getOptionList(menu.id)
+
+    if (response instanceof Error) {
+      return
+    }
+    const optionList = response
+    setOptionList(optionList)
+
+    const INITIAL_SELECTED_OPTIONLIST = optionList.map(
+      ({ id, name, optionDetailList }) => ({
+        id,
+        name,
+        optionDetail: optionDetailList[0],
+      })
+    )
+    setSelectedOptionList(INITIAL_SELECTED_OPTIONLIST)
+  }
+
+  useEffect(() => {
+    initOptionList()
+  }, [])
+
   return (
     <StyledMenuOptionSelector>
       <Menu menu={menu} />
@@ -128,6 +147,7 @@ export default function MenuOptionSelector({
 }
 
 const StyledMenuOptionSelector = styled.div`
+  width: 400px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -141,7 +161,7 @@ const StyledMenu = styled.div`
   text-align: center;
   gap: 10px;
   img {
-    width: 70%;
+    width: 100%;
   }
 `
 

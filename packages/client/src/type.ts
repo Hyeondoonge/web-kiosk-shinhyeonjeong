@@ -41,10 +41,20 @@ export interface CartMenuType extends SelectedMenuType {
   cartId: number
 }
 
+export interface OrderMenuType {
+  id: number
+  name: string
+  amount: number
+  price: number
+  selectedOptionList: OrderOptionDetailType[]
+}
+
 export interface OrderType {
   id: number
   orderNumber: number
-  selectedMenuList: SelectedMenuType[]
+  orderMenuList: OrderMenuType[]
   paymentMethod: string
   paymentAmount: number
 }
+
+export type OrderOptionDetailType = Omit<OptionDetailType, 'id'>

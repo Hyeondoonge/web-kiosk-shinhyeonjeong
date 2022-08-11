@@ -38,7 +38,7 @@ export class OrdersService {
       const { menuName, menuId, count, menuTotalPrice, options } = orderDetail
 
       // OrderDetail 정보를 추가한다. Option정보를 포함하고 있다.
-      const createdOrderDetail = OrderDetail.create({
+      const createdOrderDetail = await OrderDetail.create({
         count,
         menuName,
         totalPrice: menuTotalPrice,
@@ -46,6 +46,8 @@ export class OrdersService {
         orderId: createdOrder.id,
       }).save()
       createdOrderDetailList.push(createdOrderDetail)
+
+      console.log(createdOrderDetail)
 
       const date = `${today.getFullYear()}-${String(
         today.getMonth() + 1

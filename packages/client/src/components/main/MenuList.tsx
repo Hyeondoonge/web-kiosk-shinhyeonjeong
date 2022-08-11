@@ -1,7 +1,6 @@
-import { MouseEventHandler, useState } from 'react'
-import { MenuType, SelectedMenuType } from 'type'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import { MenuType, OptionWithDetailType, SelectedMenuType } from 'type'
 import MenuOptionSelector from './MenuOptionSelector'
-import mockOptionList from '../../mock/mockOptionList.json'
 import styled from 'styled-components'
 import ModalPortal from './ModalPortal'
 import theme from 'style/theme'
@@ -14,7 +13,6 @@ interface MenuItemProps {
 
 function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -23,7 +21,12 @@ function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
   return (
     <StyledMenuListItem onClick={() => setIsModalOpen(true)}>
       {/* <div>{isPopular ? '인기' : '인기없음'}</div> */}
-      <img src={imgUrl} alt={name} />
+      <img
+        src={
+          'http://www.mmthcoffee.com/data/file/mm_new/thumb-1846184521_N10saD8o_bd211bf0397e1ddb03c53c6f64a4f823c76612ed_216x216.png'
+        }
+        alt={name}
+      />
       <div className="menuName">{name}</div>
       <div className="menuPrice">{price.toLocaleString()}원</div>
 
@@ -32,7 +35,6 @@ function MenuListItem({ isPopular, menu, updateCartMenuList }: MenuItemProps) {
           <button onClick={closeModal}>닫기</button>
           <MenuOptionSelector
             menu={menu}
-            optionList={mockOptionList} // menu를 전달해서 optionSelector에서 option가져오도록 수정
             setIsModalOpen={setIsModalOpen}
             updateCartMenuList={(selectedMenu: SelectedMenuType) => {
               updateCartMenuList(selectedMenu)

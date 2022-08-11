@@ -1,11 +1,13 @@
-interface Menu {
-  name: string
-  count: number
-  menuTotalPrice: number
-  optionsDetailId: number[]
+export class CreateOrderDto {
+  paymentMethod: string
+  totalPrice: number
+  orderDetailList: OrderDetailDto[]
 }
 
-export interface CreateOrderDto {
-  paymentMethod: string
-  menu: Menu[]
+export interface OrderDetailDto {
+  menuName: string
+  menuId: number
+  count: number
+  menuTotalPrice: number
+  options: string // { 'option_name': 'option_value', '': '' }[]
 }

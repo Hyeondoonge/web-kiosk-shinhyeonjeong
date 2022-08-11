@@ -43,8 +43,8 @@ export class Menu extends BaseEntity {
 
   @ManyToMany(() => Option)
   @JoinTable({
-    name: 'item_option_table',
-    joinColumn: { name: 'itemId', referencedColumnName: 'id' },
+    name: 'menu_option_table',
+    joinColumn: { name: 'menuId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'optionId', referencedColumnName: 'id' },
   })
   options: Option[]

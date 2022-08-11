@@ -9,4 +9,9 @@ export class CategoriesController {
   findAll() {
     return this.categoriesService.findAll()
   }
+
+  @Get('/menu')
+  findAllWithMenu() {
+    return this.categoriesService.findAllWithMenu()
+  }
 }

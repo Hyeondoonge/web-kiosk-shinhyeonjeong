@@ -6,6 +6,7 @@ export class CreateOrderDto {
 
 export interface OrderDetailDto {
   menuName: string
+  menuId: number
   count: number
   menuTotalPrice: number
   options: string // { 'option_name': 'option_value', '': '' }[]

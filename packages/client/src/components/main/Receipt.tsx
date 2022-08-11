@@ -29,7 +29,7 @@ function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
 
               return (
                 <li key={`${index}`}>
-                  • {name} (+{price.toLocaleString()}원)
+                  • {name} (+{price?.toLocaleString() ?? ''}원)
                 </li>
               )
             })}

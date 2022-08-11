@@ -1,5 +1,7 @@
 import { ModalContext } from 'App'
 import { useContext, useEffect, useState } from 'react'
+import theme from 'style/theme'
+import styled from 'styled-components'
 import { OrderMenuType, OrderType } from 'type'
 
 interface ReceiptProps {
@@ -11,10 +13,6 @@ interface OrderedMenuListProps {
   orderMenuList: OrderMenuType[]
 }
 
-interface TimerProps {
-  deleteAllCartMenu: () => void
-}
-
 function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
   const ORDERED_MENU_TOTAL_PRICE = 15000
 
@@ -22,7 +20,7 @@ function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
     <ul>
       {orderMenuList.map(({ id, name, amount, price, selectedOptionList }) => (
         <li key={id}>
-          <div>
+          <div style={{ fontWeight: 700 }}>
             {name} {amount}개
           </div>
           <ul>
@@ -31,7 +29,7 @@ function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
 
               return (
                 <li key={`${index}`}>
-                  {name} ({price.toLocaleString()}원)
+                  • {name} (+{price.toLocaleString()}원)
                 </li>
               )
             })}
@@ -43,38 +41,6 @@ function OrderedMenuList({ orderMenuList }: OrderedMenuListProps) {
   )
 }
 
-function Timer({ deleteAllCartMenu }: TimerProps) {
-  const [isModalOpen, setIsModalOpen] = useContext(ModalContext)
-
-  const INITIAL_LEFT_TIME = 10
-  const [leftTime, setLeftTime] = useState(INITIAL_LEFT_TIME)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLeftTime((leftTIme) => leftTIme - 1)
-    }, 300)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (leftTime === 0) {
-      if (!isModalOpen || !setIsModalOpen) return
-      setIsModalOpen({ ...isModalOpen, receipt: false })
-      deleteAllCartMenu()
-    }
-  }, [leftTime])
-
-  return (
-    <div>
-      남은시간 {leftTime}초
-      <div>주의: 이 화면은 10초 뒤에 자동으로 사라집니다.</div>
-    </div>
-  )
-}
-
 export default function Receipt({
   order: { id, orderNumber, orderMenuList, paymentMethod, paymentAmount },
   deleteAllCartMenu,
@@ -82,16 +48,26 @@ export default function Receipt({
   const ORDER_AMOUNT = 50000
 
   return (
-    <div>
-      <div>주문 번호 {orderNumber}</div>
+    <StyledReceipt>
+      <div className="orderNumber">주문 번호 {orderNumber}</div>
       <OrderedMenuList orderMenuList={orderMenuList} />
-      <div>
-        <div>총 주문금액 {ORDER_AMOUNT}</div>
-        <div>총 결제금액 {paymentAmount}</div>
-        <div>잔돈 {ORDER_AMOUNT - paymentAmount}</div>
-        <div>결제방법 {paymentMethod}</div>
-      </div>
-      <Timer deleteAllCartMenu={deleteAllCartMenu} />
-    </div>
+      <div>총 주문금액 {ORDER_AMOUNT.toLocaleString()}원</div>
+      <div>총 결제금액 {paymentAmount.toLocaleString()}원</div>
+      <div>잔돈 {(ORDER_AMOUNT - paymentAmount).toLocaleString()}원</div>
+      <div>결제방법 {paymentMethod}</div>
+    </StyledReceipt>
   )
 }
+
+const StyledReceipt = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: ${theme.font.sm};
+  .orderNumber {
+    font-size: ${theme.font.lg};
+    font-weight: 700;
+    text-align: center;
+  }
+  transition: 1s;
+`

@@ -92,12 +92,12 @@ function App() {
   return (
     <ModalContext.Provider value={[isModalOpen, setIsModalOpen]}>
       <CartContext.Provider value={[cartMenuList, setCartMenuList]}>
-        <div className="App">
-          {/* <CategoryList
-          categoryList={categoryList}
-          selectedCategoryId={selectedCategoryId}
-          setSelectedCategoryId={setSelectedCategoryId}
-        /> */}
+        <StyledApp>
+          <CategoryList
+            categoryList={categoryList}
+            selectedCategoryId={selectedCategoryId}
+            setSelectedCategoryId={setSelectedCategoryId}
+          />
           <MenuList
             menuList={menuList}
             updateCartMenuList={(selectedMenu: SelectedMenuType) => {
@@ -181,7 +181,7 @@ function App() {
               </button>
             </ModalPortal>
           )}
-        </div>
+        </StyledApp>
       </CartContext.Provider>
     </ModalContext.Provider>
   )

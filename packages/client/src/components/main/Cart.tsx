@@ -100,7 +100,7 @@ function Timer({ cartMenuList, deleteAllCartMenu }: TimerProps) {
 
     // + 담긴 상품이 없을 때는 실행되지 않도록 할 수도 있음.
     interval.current = setInterval(() => {
-      // setLeftTime((leftTime) => leftTime - 1)
+      setLeftTime((leftTime) => leftTime - 1)
     }, 1000)
   }, [cartMenuList])
 
@@ -111,7 +111,7 @@ function Timer({ cartMenuList, deleteAllCartMenu }: TimerProps) {
     }
   }, [leftTime])
 
-  return <StyledTimer>{leftTime}초</StyledTimer>
+  return <StyledTimer>남은시간 {leftTime}초</StyledTimer>
 }
 
 // cartMenuList={cartMenuList}
@@ -169,6 +169,7 @@ export default function Cart({
 const StyledCart = styled.div`
   display: grid;
   grid-template-columns: 65% 30%;
+  background-color: white;
   overflow: auto;
   padding: 10px;
   gap: 5%;
@@ -203,6 +204,6 @@ const StyledCartMenu = styled.li`
 `
 
 const StyledTimer = styled.div`
-  font-size: ${theme.font.lg};
+  font-size: ${theme.font.md};
   font-weight: 700;
 `

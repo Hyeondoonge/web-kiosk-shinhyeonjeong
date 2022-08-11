@@ -33,7 +33,12 @@ interface MenuOptionSelectorProps {
 function Menu({ menu: { imgUrl, name, price } }: { menu: MenuType }) {
   return (
     <StyledMenu>
-      <img src={imgUrl} alt={name} />
+      <img
+        src={
+          'http://www.mmthcoffee.com/data/file/mm_new/thumb-1846184521_N10saD8o_bd211bf0397e1ddb03c53c6f64a4f823c76612ed_216x216.png'
+        }
+        alt={name}
+      />
       <div>{name}</div>
       <div>{price.toLocaleString()}원</div>
     </StyledMenu>
@@ -142,6 +147,7 @@ export default function MenuOptionSelector({
 }
 
 const StyledMenuOptionSelector = styled.div`
+  width: 400px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -155,7 +161,7 @@ const StyledMenu = styled.div`
   text-align: center;
   gap: 10px;
   img {
-    width: 70%;
+    width: 100%;
   }
 `
 

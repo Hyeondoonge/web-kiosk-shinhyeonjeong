@@ -2,15 +2,13 @@ import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import theme from 'style/theme'
 import styled from 'styled-components'
 
-const ITEM_WIDTH = 200
+const ITEM_WIDTH = 250
 
 export default function Slider({
-  width,
   focused,
   onClickItem,
   list,
 }: {
-  width: string
   focused: number
   onClickItem: (index: number) => void
   list: string[]
@@ -73,7 +71,7 @@ export default function Slider({
   return (
     <StyledSlider
       ref={sliderRef}
-      width={width}
+      width={'100%'}
       className="slider"
       onMouseDown={(event) => onMouseDown(event)}
       onMouseUp={(event) => onMouseUp(event)}

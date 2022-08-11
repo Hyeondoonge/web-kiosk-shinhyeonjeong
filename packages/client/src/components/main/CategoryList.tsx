@@ -65,7 +65,6 @@ export default function CategoryList({
 
   return (
     <Slider
-      width={'100%'}
       focused={selectedCategoryIndex !== -1 ? selectedCategoryIndex : 0}
       list={list}
       onClickItem={(index) => {

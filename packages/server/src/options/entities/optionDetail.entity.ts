@@ -19,6 +19,9 @@ export class OptionDetail extends BaseEntity {
   @Column()
   price: number
 
+  @Column()
+  optionId: number
+
   @ManyToOne(() => Option, (option) => option.detailList)
   @JoinColumn({ name: 'optionId' })
   option: Option

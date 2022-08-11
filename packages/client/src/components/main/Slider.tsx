@@ -1,13 +1,16 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react'
+import theme from 'style/theme'
 import styled from 'styled-components'
 
 const ITEM_WIDTH = 200
 
 export default function Slider({
+  width,
   focused,
   onClickItem,
   list,
 }: {
+  width: string
   focused: number
   onClickItem: (index: number) => void
   list: string[]
@@ -70,6 +73,7 @@ export default function Slider({
   return (
     <StyledSlider
       ref={sliderRef}
+      width={width}
       className="slider"
       onMouseDown={(event) => onMouseDown(event)}
       onMouseUp={(event) => onMouseUp(event)}
@@ -92,9 +96,9 @@ export default function Slider({
   )
 }
 
-const StyledSlider = styled.div`
-  width: 100%;
-  height: 300px;
+const StyledSlider = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
+  height: calc(3rem + 45px);
   overflow: hidden;
   position: relative;
 `
@@ -102,7 +106,6 @@ const StyledSlider = styled.div`
 const StyledList = styled.ul<{ listLength: number }>`
   width: ${(props) =>
     props.listLength * ITEM_WIDTH + (30 * props.listLength - 1)}px;
-  padding: 0;
   display: flex;
   list-style: none;
   font-size: 3rem;
@@ -110,21 +113,23 @@ const StyledList = styled.ul<{ listLength: number }>`
   gap: 30px;
 
   & li {
+    padding: 20px 0;
     width: ${ITEM_WIDTH}px;
     cursor: pointer;
-    color: gray;
+    color: ${theme.palette.titleInActive};
     text-align: center;
 
     &.active {
-      color: black;
+      color: ${theme.palette.titleActive};
     }
   }
 `
 const StyledBorder = styled.div`
   width: ${ITEM_WIDTH}px;
   height: 5px;
-  background-color: black;
+  background-color: ${theme.palette.titleActive};
   transition: 0.5s;
   position: absolute;
   left: 0;
+  bottom: 0;
 `

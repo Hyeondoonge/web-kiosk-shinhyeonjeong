@@ -13,21 +13,25 @@
 
 ### Client
 
+<div>
 <!-- js -->
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <!-- js -->
 <img src="https://img.shields.io/badge/react-4D4D4D?style=for-the-badge&logo=react&logoColor=#61DAFB">
 <!-- scss -->
 <img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+</div>
 
 ### Server
 
+<div>
 <!-- express -->
 <img src="https://img.shields.io/badge/nestJs-E0234E?style=for-the-badge&logo=nestJs&logoColor=#E0234E">
 <!-- mysql -->
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <!-- aws -->
 <img src="https://img.shields.io/badge/aws EC2-FF7200?style=for-the-badge&logo=amazonaws&logoColor=black">
+</div>
 
 # ✨ Getting Started
 

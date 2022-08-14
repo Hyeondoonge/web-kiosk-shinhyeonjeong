@@ -2,12 +2,8 @@
 <div>2주간 진행된 카페 키오스크 서비스 개인 프로젝트입니다.</div>
 <div>개인 프로젝트이지만 4명의 조원과 함께 협업을 하며 진행했습니다.</div>
 
-### 🗂 [3조 기록용 노션](https://olive-iguanadon-df1.notion.site/3-6757a9f1147240b099f19aa89cdf4b58)
-
-### 💻 [데모](http://15.165.209.251/)
-
-### 📖 [WIKI](https://github.com/woowa-techcamp-2022/web-kiosk-shinhyeonjeong/wiki)
-### 💬 [우아한테크캠프 5, 6주차 회고](https://velog.io/@jsi06138/%EC%9A%B0%EC%95%84%ED%95%9C%ED%85%8C%ED%81%AC%EC%BA%A0%ED%94%84-56-%EC%A3%BC%EC%B0%A8-%ED%9A%8C%EA%B3%A0)
+#### 🗂 [3조 기록용 노션](https://olive-iguanadon-df1.notion.site/3-6757a9f1147240b099f19aa89cdf4b58) | 💻 [데모](http://15.165.209.251/) | 📖 [WIKI](https://github.com/woowa-techcamp-2022/web-kiosk-shinhyeonjeong/wiki)
+#### 💬 [우아한테크캠프 5, 6주차 회고](https://velog.io/@jsi06138/%EC%9A%B0%EC%95%84%ED%95%9C%ED%85%8C%ED%81%AC%EC%BA%A0%ED%94%84-56-%EC%A3%BC%EC%B0%A8-%ED%9A%8C%EA%B3%A0) | 🎬 [발표영상](https://www.youtube.com/watch?v=YjT4eAea3Tc)
 
 # 🛠 Tech Stack
 
